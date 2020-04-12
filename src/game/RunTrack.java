@@ -18,7 +18,6 @@ public class RunTrack {
         this.obstacleMap = new HashMap<>();
 
         for(int i=0; i<perimeter; i+=500){
-            obstacleMap.put(i,)
         }
 
 
