@@ -6,4 +6,12 @@ public class GameEngine {
     private Hero hero;
     private int heroPosition;
     private int score;
+
+
+
+    public void startGame(){
+
+
+    }
+
 }

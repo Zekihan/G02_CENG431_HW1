@@ -1,5 +1,6 @@
 package game;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class RunTrack {
@@ -9,6 +10,19 @@ public class RunTrack {
     private Map<Integer,Currency> currencyMap;
     private Map<Integer,Obstacle> obstacleMap;
 
+
+    public RunTrack(int perimeter, TrackType trackType) {
+        this.perimeter = perimeter;
+        this.trackType = trackType;
+        this.currencyMap = new HashMap<>();
+        this.obstacleMap = new HashMap<>();
+
+        for(int i=0; i<perimeter; i+=500){
+            obstacleMap.put(i,)
+        }
+
+
+    }
 
     public int getPerimeter() {
         return perimeter;
@@ -25,4 +39,6 @@ public class RunTrack {
     public Map<Integer, Obstacle> getObstacleMap() {
         return obstacleMap;
     }
+
+
 }
