@@ -1,32 +1,31 @@
 package game;
 
-public abstract class Obstacle implements IObstacle {
+public enum Obstacle {
+    ROCK(Move.JUMP),
+    SAW(Move.JUMP),
+    FELLED_TREE(Move.SLIDE),
+    AQUEDUCT(Move.SLIDE);
 
-    private Move move;
-    private ObstacleType obstacleType;
-    private double avoidChance;
+    private final Move necessaryMove;
 
-    public Obstacle(double avoidChance) {
-        this.avoidChance = avoidChance;
+    Obstacle(Move necessaryMove) {
+        this.necessaryMove = necessaryMove;
     }
 
-    public Move getMove() {
-        return move;
+    public Move getNecessaryMove() {
+        return necessaryMove;
     }
 
-    public ObstacleType getObstacleType() {
-        return obstacleType;
+    public double getChance(){
+        return necessaryMove.getProbability();
     }
 
-    public double getAvoidChance() {
-        return avoidChance;
+    public int getPoint(){
+        return necessaryMove.getPoint();
     }
 
-    public void setMove(Move move) {
-        this.move = move;
-    }
 
-    public void setObstacleType(ObstacleType obstacleType) {
-        this.obstacleType = obstacleType;
-    }
+
 }
+
+
