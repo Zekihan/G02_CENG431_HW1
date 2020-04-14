@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.Display;
 import io.IGameMonitor;
 import io.KeyListen;
+import io.MyKeyListener;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class GameEngine {
 
@@ -16,6 +18,7 @@ public class GameEngine {
     private int score;
     private Level level;
     private boolean gameOver;
+    private KeyListen dis;
 
     public GameEngine() {
         this(new RunTrack(RandomEngine.randPerimeterInRange(1000,10000), RandomEngine.randTrackType())
@@ -31,12 +34,23 @@ public class GameEngine {
         this.score = score;
         this.level = level;
         this.gameOver = gameOver;
-        KeyListen.qToEnd();
+        this.dis = new KeyListen(new MyKeyListener());
     }
 
     public void startGame(){
 
         while(!gameOver){
+
+            dis.setTextField2(String.valueOf(score));
+            if (dis.getTextField().equals("q")){
+                gameOver = true;
+                endReport("Player quitted");
+            }
+            try {
+                TimeUnit.MILLISECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             if(checkMonsterCondition()){
                 gameOver = true;
@@ -75,7 +89,10 @@ public class GameEngine {
             if(hero.getPosition() > runTrack.getPerimeter()){
                 hero.resetPosition();
             }
+
         }
+        dis.setTextField2("end game" + String.valueOf(score));
+
     }
 
     private boolean checkStumbleCondition(IAvoidable obstacleEncountered){
@@ -116,6 +133,7 @@ public class GameEngine {
         String report = gameReport.createGameReport(deathReason,runTrack,hero,totalMeters,score,level);
         IGameMonitor reportDisplayer = new Display();
         reportDisplayer.displayEndGameReport(report);
+        dis.setTextField2(String.valueOf(report));
 
     }
 
