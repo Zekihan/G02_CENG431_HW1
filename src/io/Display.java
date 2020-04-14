@@ -14,6 +14,7 @@ public class Display implements IGameMonitor{
 
         this.frame = new JFrame("Key Listener");
         frame.setTitle("Runner Hero");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(true);
         frame.setPreferredSize(new Dimension(560,250));
 
