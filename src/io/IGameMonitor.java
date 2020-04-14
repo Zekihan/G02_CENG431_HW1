@@ -7,9 +7,9 @@ public interface IGameMonitor {
 
     public void displayEndGameReport(String reportInString);
 
-    public void displayCollectedCurrency(Currency collectedCurrency);
+    public void displayCollectedCurrency(String collectedCurrencyInString);
 
-    public void displayAvoidedObstacle(Obstacle avoidedObstacle);
+    public void displayAvoidedObstacle(String avoidedObstacleInString);
 
-    public void displayReachedDestination(int reachedDestination);
+    public void displayReachedDestination(String reachedDestinationInString);
 }

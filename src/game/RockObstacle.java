@@ -7,9 +7,7 @@ public class RockObstacle extends JumpableObstacle{
     }
 
     @Override
-    public String avoidEffect() {
-        return "Hero has jumped over a rock obstacle.";
-    }
+    public String avoidEffect() { return "Hero has jumped over a rock obstacle."; }
 
     @Override
     public String stumbleEffect() {

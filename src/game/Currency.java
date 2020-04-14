@@ -1,6 +1,6 @@
 package game;
 
-//TODO: Convert it into a class maybe?
+
 public enum Currency {
 
     COIN (100, false),
@@ -22,4 +22,6 @@ public enum Currency {
     public int getValue() {
         return value;
     }
+
+    public String toString() { return "a " + this.name() + " (" + this.getValue() + "pts)"; }
 }
