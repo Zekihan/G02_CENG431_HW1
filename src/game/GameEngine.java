@@ -91,8 +91,6 @@ public class GameEngine {
             }
 
         }
-        dis.setTextField2("end game" + String.valueOf(score));
-
     }
 
     private boolean checkStumbleCondition(IAvoidable obstacleEncountered){
@@ -133,7 +131,7 @@ public class GameEngine {
         String report = gameReport.createGameReport(deathReason,runTrack,hero,totalMeters,score,level);
         IGameMonitor reportDisplayer = new Display();
         reportDisplayer.displayEndGameReport(report);
-        dis.setTextField2(String.valueOf(report));
+        dis.setTextField2(report);
 
     }
 
