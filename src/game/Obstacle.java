@@ -1,14 +1,10 @@
 package game;
 
-public enum Obstacle {
-    ROCK(Move.JUMP),
-    SAW(Move.JUMP),
-    FELLED_TREE(Move.SLIDE),
-    AQUEDUCT(Move.SLIDE);
+public abstract class Obstacle implements IAvoidable{
 
     private final Move necessaryMove;
 
-    Obstacle(Move necessaryMove) {
+    public Obstacle(Move necessaryMove) {
         this.necessaryMove = necessaryMove;
     }
 
@@ -16,15 +12,13 @@ public enum Obstacle {
         return necessaryMove;
     }
 
-    public double getChance(){
+    public double getAvoidChance(){
         return necessaryMove.getProbability();
     }
 
-    public int getPoint(){
+    public int getAvoidPoint(){
         return necessaryMove.getPoint();
     }
-
-
 
 }
 

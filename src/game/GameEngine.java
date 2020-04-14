@@ -15,18 +15,19 @@ public class GameEngine {
     private boolean gameOver;
 
     public GameEngine() {
-        this(new RunTrack(Randoms.randPerimeterInRange(1000,10000), Randoms.randTrackType())
-                , new Hero(), 0, 0, Randoms.randLevel(), false);
+        this(new RunTrack(RandomEngine.randPerimeterInRange(1000,10000), RandomEngine.randTrackType())
+                , new Hero(), 0, 0, RandomEngine.randLevel(), false);
     }
 
-    public GameEngine(RunTrack runTrack, Hero hero, int totalMeters, int score, Level level, boolean gameOver) {
+    //TODO: Use setters to set fields (inside which there will be pre and postconditions).
+    //TODO: Put setters inside a initiateGame() method?
+    private GameEngine(RunTrack runTrack, Hero hero, int totalMeters, int score, Level level, boolean gameOver) {
         this.runTrack = runTrack;
         this.hero = hero;
         this.totalMeters = totalMeters;
         this.score = score;
         this.level = level;
         this.gameOver = gameOver;
-
         KeyListen.qToEnd();
     }
 
@@ -40,30 +41,29 @@ public class GameEngine {
             }
 
             if(runTrack.checkForObstacle(hero.getPosition())){
-                Obstacle obstacleEncountered = runTrack.getObstacleAtPosition(hero.getPosition());
+                IAvoidable obstacleEncountered = runTrack.getObstacleAtPosition(hero.getPosition());
 
                 if(checkStumbleCondition(obstacleEncountered)){
                     gameOver = true;
-                    endReport("Failed to " + obstacleEncountered.getNecessaryMove()
-                            + " stumbled into a fuckin " + obstacleEncountered.name());
+                    endReport(obstacleEncountered.stumbleEffect());
 
                 }else {
-                    score += obstacleEncountered.getPoint() * level.getMultiplier();
+                    score += obstacleEncountered.getAvoidPoint() * level.getMultiplier();
                 }
             }
 
             if(runTrack.checkForCurrency(hero.getPosition())){
                 Currency currency = runTrack.getCurrencyAtPosition(hero.getPosition());
 
-                if(!currency.isMagnetic() || hero.hasMagnet()){
-                    hero.putToChest(currency);
+                if(!currency.requiresMagnet() || hero.hasMagnet()){
+                    hero.collect(currency);
                     score += currency.getValue() * level.getMultiplier();
                 }
 
             }
 
             if(!hero.hasMagnet() && score > 5000){
-                hero.giveMagnet();
+                hero.acquireMagnet();
             }
 
             totalMeters++;
@@ -75,10 +75,10 @@ public class GameEngine {
         }
     }
 
-    private boolean checkStumbleCondition(Obstacle obstacleEncountered){
+    private boolean checkStumbleCondition(IAvoidable obstacleEncountered){
         Random rand = new Random();
         double randVal = rand.nextDouble();
-        return randVal < obstacleEncountered.getChance();
+        return randVal < obstacleEncountered.getAvoidChance();
     }
 
     private boolean checkMonsterCondition(){
@@ -90,14 +90,14 @@ public class GameEngine {
         return false;
     }
 
+    //TODO: Complete the method.
     private void saveProgress(){
-        Progress progress = new Progress(runTrack,hero,totalMeters,score,level);
-
+        //Progress progress = new Progress(runTrack,hero,totalMeters,score,level);
     }
 
     private void endReport(String deathReason){
-        Progress progress = new Progress(runTrack,hero,totalMeters,score,level);
-        String report = progress.gameReport(deathReason);
+        GameReport gameReport = new GameReport();
+        String report = gameReport.createGameReport(deathReason,runTrack,hero,totalMeters,score,level);
         Display.show(report);
 
     }

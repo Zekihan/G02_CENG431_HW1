@@ -9,7 +9,7 @@ public class RunTrack {
     private int perimeter;
     private TrackType trackType;
     private Map<Integer,Currency> currencyMap;
-    private Map<Integer,Obstacle> obstacleMap;
+    private Map<Integer,IAvoidable> obstacleMap;
 
 
     public RunTrack(int perimeter, TrackType trackType) {
@@ -33,7 +33,7 @@ public class RunTrack {
         return currencyMap.get(position);
     }
 
-    public Obstacle getObstacleAtPosition(int position){
+    public IAvoidable getObstacleAtPosition(int position){
 
         return obstacleMap.get(position);
     }
@@ -57,9 +57,9 @@ public class RunTrack {
 
     }
 
-    private Obstacle createRandomObstacle(){
-
-        Obstacle[] obstacles = Obstacle.values();
+    private IAvoidable createRandomObstacle(){
+    //TODO: Make the list assignment more generic?
+        IAvoidable[] obstacles = {new RockObstacle(), new SawObstacle(), new AqueductObstacle(), new FelledTreeObstacle()};
         Random rand = new Random();
         int i = rand.nextInt(obstacles.length);
         return obstacles[i];
@@ -79,7 +79,7 @@ public class RunTrack {
         return currencyMap;
     }
 
-    public Map<Integer, Obstacle> getObstacleMap() {
+    public Map<Integer, IAvoidable> getObstacleMap() {
         return obstacleMap;
     }
 

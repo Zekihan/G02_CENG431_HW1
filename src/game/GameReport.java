@@ -1,22 +1,11 @@
 package game;
 
-public class Progress {
+public class GameReport {
 
-    private RunTrack runTrack;
-    private Hero hero;
-    private int totalMeters;
-    private int score;
-    private Level level;
+    //TODO: Knows about lots of things!!!!. Seperate concerns
 
-    public Progress(RunTrack runTrack, Hero hero, int totalMeters, int score, Level level) {
-        this.runTrack = runTrack;
-        this.hero = hero;
-        this.totalMeters = totalMeters;
-        this.score = score;
-        this.level = level;
-    }
 
-    public String gameReport(String deathReason){
+    public String createGameReport(String deathReason, RunTrack runTrack, Hero hero, int totalMeters, int score, Level level){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Game Over\n")
                     .append("----------\n")

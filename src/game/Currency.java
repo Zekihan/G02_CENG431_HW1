@@ -6,16 +6,16 @@ public enum Currency {
     MAGNETIC_COIN (200, true),
     DIAMOND (400, false);
 
-    private final boolean magnetic;
+    private final boolean requiresMagnet;
     private final int value;
 
-    Currency(int value, boolean magnetic){
+    private Currency(int value, boolean requiresMagnet){
         this.value = value;
-        this.magnetic = magnetic;
+        this.requiresMagnet = requiresMagnet;
     }
 
-    public boolean isMagnetic() {
-        return magnetic;
+    public boolean requiresMagnet() {
+        return requiresMagnet;
     }
 
     public int getValue() {

@@ -2,7 +2,7 @@ package game;
 
 import java.util.Random;
 
-public class Randoms {
+public class RandomEngine {
 
     public static int randPerimeterInRange(int start, int end){
         Random rand = new Random();
