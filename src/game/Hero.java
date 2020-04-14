@@ -61,7 +61,7 @@ public class Hero {
         return chest;
     }
 
-    public boolean gethasMagnet() {
+    public boolean getHasMagnet() {
         return magnet;
     }
 }

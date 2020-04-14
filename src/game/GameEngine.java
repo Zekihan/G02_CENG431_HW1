@@ -113,7 +113,8 @@ public class GameEngine {
     private void endReport(String deathReason){
         GameReport gameReport = new GameReport();
         String report = gameReport.createGameReport(deathReason,runTrack,hero,totalMeters,score,level);
-        Display.show(report);
+        Display reportDisplayer = new Display();
+        reportDisplayer.displayEndGameReport(report);
 
     }
 

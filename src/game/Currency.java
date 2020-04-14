@@ -1,5 +1,6 @@
 package game;
 
+//TODO: Convert it into a class maybe?
 public enum Currency {
 
     COIN (100, false),

@@ -3,7 +3,7 @@ package io;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyListen  {
+public class KeyListen{
 
     public static void qToEnd(){
 

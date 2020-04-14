@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class RunTrack {
+public class RunTrack implements IGameMap{
 
     private int perimeter;
     private TrackType trackType;
