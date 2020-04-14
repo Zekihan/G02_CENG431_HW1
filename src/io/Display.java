@@ -45,8 +45,9 @@ public class Display implements IGameMonitor{
 
     }
 
-    private void setText(String display) {
-        textField2.append("Event: " + display+"\n");
+    private void setText(String title, String display) {
+        textField2.append(title);
+        textField2.append(display+"\n");
     }
 
     public String getKeyEvent() {
@@ -55,18 +56,18 @@ public class Display implements IGameMonitor{
 
     public void displayEndGameReport(String reportInString){
         System.out.println(reportInString);
-        setText(reportInString);
+        setText("**********GAME REPORT**********", reportInString);
     }
 
     public void displayCollectedCurrency(String collectedCurrencyInString){
         String screenText = "Hero has collected " + collectedCurrencyInString + "!!";
         System.out.println(screenText);
-        setText(screenText);
+        setText("+score -> ", screenText);
     }
 
     public void displayAvoidedObstacle(String avoidedObstacleInString){
         System.out.println(avoidedObstacleInString);
-        setText(avoidedObstacleInString);
+        setText("+score -> ", avoidedObstacleInString);
     }
 
 
@@ -74,7 +75,7 @@ public class Display implements IGameMonitor{
         String destinationInString = String.valueOf(reachedDestinationInString);
         String textScreen = "Hero has reached to " + destinationInString + " meters!!";
         System.out.println(textScreen);
-        setText(textScreen);
+        setText("",textScreen);
     }
 
 }

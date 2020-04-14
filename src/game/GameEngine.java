@@ -49,13 +49,14 @@ public class GameEngine {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
+                break;
             }
 
             //Monster eats the hero
             if(checkMonsterCondition()){
                 gameOver = true;
                 endReport("Eaten by a monster");
+                break;
             }
 
             //Hero encounters an obstacle
@@ -73,6 +74,7 @@ public class GameEngine {
                 if(checkStumbleCondition(obstacleEncountered)){
                     gameOver = true;
                     endReport(obstacleEncountered.stumbleEffect());
+                    break;
 
                  //Hero avoids the obstacle
                 }else {
@@ -89,6 +91,7 @@ public class GameEngine {
                 if(!currency.requiresMagnet() || hero.hasMagnet()){
                     hero.collect(currency);
                     score += currency.getValue() * level.getMultiplier();
+                    display.displayCollectedCurrency(currency.toString());
                 }
 
             }
@@ -104,6 +107,7 @@ public class GameEngine {
 
             //Hero has completed one iteration of run track, reset the run track's content (currencies)
             if(hero.getPosition() > runTrack.getPerimeter()){
+                display.displayReachedDestination(String.valueOf(totalMeters));
                 hero.resetPosition();
             }
 
@@ -128,6 +132,7 @@ public class GameEngine {
     }
 
 
+    //Save player's progress into the game_progress.json file as a json object
     private void saveProgress() throws InvalidTypeException {
         ProgressHandler progressHandler = new ProgressHandler("./game_progress.json", Operation.WRITE);
         ObjectMapper mapper = new ObjectMapper();
@@ -149,6 +154,7 @@ public class GameEngine {
 
     }
 
+    //End of the game, player's score, cause of death, etc. is displayed
     private void endReport(String deathReason){
         GameReport gameReport = new GameReport();
         String report = gameReport.createGameReport(deathReason,runTrack,hero,totalMeters,score,level);
