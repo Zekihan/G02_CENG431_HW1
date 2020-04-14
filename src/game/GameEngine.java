@@ -3,6 +3,7 @@ package game;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.Display;
+import io.IGameMonitor;
 import io.KeyListen;
 
 import java.util.Random;
@@ -113,7 +114,7 @@ public class GameEngine {
     private void endReport(String deathReason){
         GameReport gameReport = new GameReport();
         String report = gameReport.createGameReport(deathReason,runTrack,hero,totalMeters,score,level);
-        Display reportDisplayer = new Display();
+        IGameMonitor reportDisplayer = new Display();
         reportDisplayer.displayEndGameReport(report);
 
     }
