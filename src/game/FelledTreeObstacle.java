@@ -8,7 +8,7 @@ public class FelledTreeObstacle extends SlidableObstacle{
 
     @Override
     public String avoidEffect() {
-        return "....";
+        return "User has slided under tree.";
     }
 
     @Override

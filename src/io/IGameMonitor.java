@@ -12,4 +12,6 @@ public interface IGameMonitor {
     public void displayAvoidedObstacle(String avoidedObstacleInString);
 
     public void displayReachedDestination(String reachedDestinationInString);
+
+    public String getKeyEvent();
 }

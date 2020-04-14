@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.Display;
 import io.IGameMonitor;
-import io.KeyListen;
 import io.MyKeyListener;
 
 import java.util.Random;
@@ -18,7 +17,7 @@ public class GameEngine {
     private int score;
     private Level level;
     private boolean gameOver;
-    private KeyListen dis;
+    private IGameMonitor display;
 
     public GameEngine() {
         this(new RunTrack(RandomEngine.randPerimeterInRange(1000,10000), RandomEngine.randTrackType())
@@ -34,22 +33,18 @@ public class GameEngine {
         this.score = score;
         this.level = level;
         this.gameOver = gameOver;
-        this.dis = new KeyListen(new MyKeyListener());
+        this.display = new Display(new MyKeyListener());
     }
 
     public void startGame(){
 
         while(!gameOver){
 
-            dis.setTextField2(String.valueOf(score));
-            if (dis.getTextField().equals("q")){
+
+            if (display.getKeyEvent().equals("q")){
                 gameOver = true;
                 endReport("Player quitted");
-            }
-            try {
-                TimeUnit.MILLISECONDS.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                saveProgress();
             }
 
             if(checkMonsterCondition()){
@@ -58,6 +53,11 @@ public class GameEngine {
             }
 
             if(runTrack.checkForObstacle(hero.getPosition())){
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 IAvoidable obstacleEncountered = runTrack.getObstacleAtPosition(hero.getPosition());
 
                 if(checkStumbleCondition(obstacleEncountered)){
@@ -129,10 +129,7 @@ public class GameEngine {
     private void endReport(String deathReason){
         GameReport gameReport = new GameReport();
         String report = gameReport.createGameReport(deathReason,runTrack,hero,totalMeters,score,level);
-        IGameMonitor reportDisplayer = new Display();
-        reportDisplayer.displayEndGameReport(report);
-        dis.setTextField2(report);
-
+        display.displayEndGameReport(report);
     }
 
 
