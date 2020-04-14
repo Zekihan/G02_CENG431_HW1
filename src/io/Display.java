@@ -11,7 +11,10 @@ public class Display implements IGameMonitor{
     JFrame frame;
 
     public Display(MyKeyListener action) {
+        initializeGUI(action);
+    }
 
+    private void initializeGUI(MyKeyListener action){
         this.frame = new JFrame("Key Listener");
         frame.setTitle("Runner Hero");
         frame.setResizable(true);
@@ -38,10 +41,11 @@ public class Display implements IGameMonitor{
         frame.pack();
 
         frame.setVisible(true);
+
     }
 
     private void setText(String display) {
-        textField2.append(display+"\n");
+        textField2.append("Event: " + display+"\n");
     }
 
     public String getKeyEvent() {
