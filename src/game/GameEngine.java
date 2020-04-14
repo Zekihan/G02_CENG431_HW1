@@ -66,6 +66,7 @@ public class GameEngine {
 
                 }else {
                     score += obstacleEncountered.getAvoidPoint() * level.getMultiplier();
+                    display.displayAvoidedObstacle(obstacleEncountered.avoidEffect());
                 }
             }
 
