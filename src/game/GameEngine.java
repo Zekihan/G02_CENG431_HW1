@@ -12,6 +12,7 @@ import io.Display;
 import io.IGameMonitor;
 import io.MyKeyListener;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -142,12 +143,12 @@ public class GameEngine {
         ArrayNode objectArray = gameProgress.putArray("gameProgress");
         ObjectNode valuesNode = f.objectNode();
         try {
-            valuesNode.put("hero",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(hero));
-            valuesNode.put("runTrack",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(runTrack));
-            valuesNode.put("totalMeters",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(totalMeters));
-            valuesNode.put("score",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(score));
-            valuesNode.put("level",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(level));
-        } catch (JsonProcessingException e) {
+            valuesNode.put("hero", mapper.readTree(mapper.writeValueAsString(hero)));
+            valuesNode.put("runTrack", mapper.readTree(mapper.writeValueAsString(runTrack)));
+            valuesNode.put("totalMeters", mapper.readTree(mapper.writeValueAsString(totalMeters)));
+            valuesNode.put("score", mapper.readTree(mapper.writeValueAsString(score)));
+            valuesNode.put("level", mapper.readTree(mapper.writeValueAsString(level)));
+        } catch (IOException e) {
             e.printStackTrace();
         }
         objectArray.add(valuesNode);
