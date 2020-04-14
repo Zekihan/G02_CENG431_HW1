@@ -77,6 +77,7 @@ public class GameEngine {
                  //Hero avoids the obstacle
                 }else {
                     score += obstacleEncountered.getAvoidPoint() * level.getMultiplier();
+                    display.displayEndGameReport(obstacleEncountered.avoidEffect());
                 }
             }
 
@@ -135,10 +136,10 @@ public class GameEngine {
         String jsonString = "{";
         jsonString += "\"GameProgress\":[";
         try {
-            jsonString += mapper.writeValueAsString(hero) + "\n";
-            jsonString += mapper.writeValueAsString(runTrack) + "\n";
-            jsonString += mapper.writeValueAsString(totalMeters) + "\n";
-            jsonString += mapper.writeValueAsString(score) + "\n";
+            jsonString += mapper.writeValueAsString(hero) + ",\n";
+            jsonString += mapper.writeValueAsString(runTrack) + ",\n";
+            jsonString += mapper.writeValueAsString(totalMeters) + ",\n";
+            jsonString += mapper.writeValueAsString(score) + ",\n";
             jsonString += mapper.writeValueAsString(level) + "\n]}";
         } catch (JsonProcessingException e) {
             e.printStackTrace();
