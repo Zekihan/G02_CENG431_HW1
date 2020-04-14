@@ -1,5 +1,7 @@
 package game;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.Display;
 import io.KeyListen;
 
@@ -92,7 +94,20 @@ public class GameEngine {
 
     //TODO: Complete the method.
     private void saveProgress(){
-        //Progress progress = new Progress(runTrack,hero,totalMeters,score,level);
+
+        ObjectMapper mapper = new ObjectMapper();
+        //Converting the Object to JSONString
+        String jsonString = "{\n";
+        try {
+            jsonString += mapper.writeValueAsString(hero) + "\n";
+            jsonString += mapper.writeValueAsString(runTrack) + "\n";
+            jsonString += mapper.writeValueAsString(totalMeters) + "\n";
+            jsonString += mapper.writeValueAsString(score) + "\n";
+            jsonString += mapper.writeValueAsString(level) + "\n}";
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println(jsonString);
     }
 
     private void endReport(String deathReason){

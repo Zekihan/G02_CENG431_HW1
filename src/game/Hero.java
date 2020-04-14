@@ -6,7 +6,7 @@ import java.util.Map;
 public class Hero {
 
     private Map<Currency,Integer> chest;
-    private boolean hasMagnet;
+    private boolean magnet;
     private int position;
 
     //TODO: Maybe add package-access constructor? (To only enable the game engine to initiate hero object)
@@ -14,9 +14,9 @@ public class Hero {
         this(new HashMap<>(), false, 0);
     }
 
-    public Hero(Map<Currency, Integer> chest, boolean hasMagnet, int position) {
+    public Hero(Map<Currency, Integer> chest, boolean magnet, int position) {
         this.chest = chest;
-        this.hasMagnet = hasMagnet;
+        this.magnet = magnet;
         this.position = position;
     }
 
@@ -26,11 +26,11 @@ public class Hero {
     }
 
     public boolean hasMagnet(){
-        return hasMagnet;
+        return magnet;
     }
 
     public void acquireMagnet(){
-        hasMagnet = true;
+        magnet = true;
     }
 
     public int totalItems(){
@@ -57,4 +57,11 @@ public class Hero {
         return position;
     }
 
+    public Map<Currency, Integer> getChest() {
+        return chest;
+    }
+
+    public boolean gethasMagnet() {
+        return magnet;
+    }
 }
