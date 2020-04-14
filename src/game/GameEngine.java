@@ -1,7 +1,12 @@
 package game;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sun.jdi.InvalidTypeException;
 import io.Display;
 import io.IGameMonitor;
@@ -132,19 +137,25 @@ public class GameEngine {
         ProgressHandler progressHandler = new ProgressHandler("./game_progress.json", Operation.WRITE);
         ObjectMapper mapper = new ObjectMapper();
         boolean saved = false;
-        //Converting the Object to JSONString
-        String jsonString = "{";
-        jsonString += "\"GameProgress\":[";
+        JsonNodeFactory f = JsonNodeFactory.instance ;
+        ObjectNode gameProgress = f.objectNode();
+        ArrayNode objectArray = gameProgress.putArray("gameProgress");
+        ObjectNode valuesNode = f.objectNode();
         try {
-            jsonString += mapper.writeValueAsString(hero) + ",\n";
-            jsonString += mapper.writeValueAsString(runTrack) + ",\n";
-            jsonString += mapper.writeValueAsString(totalMeters) + ",\n";
-            jsonString += mapper.writeValueAsString(score) + ",\n";
-            jsonString += mapper.writeValueAsString(level) + "\n]}";
+            valuesNode.put("hero",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(hero));
+            valuesNode.put("runTrack",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(runTrack));
+            valuesNode.put("totalMeters",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(totalMeters));
+            valuesNode.put("score",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(score));
+            valuesNode.put("level",mapper.writerWithDefaultPrettyPrinter().writeValueAsString(level));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        saved = progressHandler.saveGameProgress(jsonString);
+        objectArray.add(valuesNode);
+        try {
+            saved = progressHandler.saveGameProgress(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(gameProgress));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         System.out.println("Progress saved: " + String.valueOf(saved));
 
     }
