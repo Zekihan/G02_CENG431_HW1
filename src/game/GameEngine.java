@@ -1,8 +1,6 @@
 package game;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -30,7 +28,6 @@ public class GameEngine {
         this(new RunTrack(RandomEngine.randPerimeterInRange(1000,10000), RandomEngine.randTrackType())
                 , new Hero(), 0, 0, RandomEngine.randLevel(), false);
     }
-
 
     private GameEngine(RunTrack runTrack, Hero hero, int totalMeters, int score, Level level, boolean gameOver) {
         this.runTrack = runTrack;
@@ -82,7 +79,7 @@ public class GameEngine {
                     endReport(obstacleEncountered.stumbleEffect());
                     break;
 
-                 //Hero avoids the obstacle
+                //Hero avoids the obstacle
                 }else {
                     score += obstacleEncountered.getAvoidPoint() * level.getMultiplier();
                     display.displayAvoidedObstacle(obstacleEncountered.avoidEffect());
@@ -102,7 +99,7 @@ public class GameEngine {
 
             }
 
-            //Hero gets a magnet whenever his/her score is over 5000
+            //Hero gets a magnet when score is over 5000
             if(!hero.hasMagnet() && score > 5000){
                 hero.acquireMagnet();
             }
@@ -158,11 +155,12 @@ public class GameEngine {
         }
         objectArray.add(valuesNode);
         try {
-            saved = progressHandler.saveGameProgress(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(gameProgress));
+            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(gameProgress);
+            saved = progressHandler.saveGameProgress(jsonString);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("Progress saved: " + String.valueOf(saved));
+        System.out.println("Progress saved: " + saved);
 
     }
 

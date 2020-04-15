@@ -56,7 +56,7 @@ public class Display implements IGameMonitor{
 
     public void displayEndGameReport(String reportInString){
         System.out.println(reportInString);
-        setText("**********GAME REPORT**********", reportInString);
+        setText("**********GAME REPORT**********\n", reportInString);
     }
 
     public void displayCollectedCurrency(String collectedCurrencyInString){
