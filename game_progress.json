@@ -2,59 +2,109 @@
   "gameProgress" : [ {
     "hero" : {
       "chest" : {
-        "DIAMOND" : 12,
-        "COIN" : 13,
-        "MAGNETIC_COIN" : 9
+        "DIAMOND" : 20,
+        "COIN" : 22,
+        "MAGNETIC_COIN" : 33
       },
-      "position" : 1,
+      "position" : 1001,
       "hasMagnet" : true
     },
     "runTrack" : {
-      "perimeter" : 1018,
-      "trackType" : "JUNGLE",
+      "perimeter" : 2783,
+      "trackType" : "MOUNTAIN",
       "currencyMap" : {
-        "0" : "COIN",
-        "800" : "COIN",
-        "450" : "MAGNETIC_COIN",
-        "100" : "DIAMOND",
-        "900" : "MAGNETIC_COIN",
-        "550" : "COIN",
-        "200" : "MAGNETIC_COIN",
-        "1000" : "DIAMOND",
+        "0" : "DIAMOND",
+        "2050" : "COIN",
+        "900" : "COIN",
+        "1800" : "DIAMOND",
         "650" : "MAGNETIC_COIN",
-        "300" : "COIN",
-        "750" : "MAGNETIC_COIN",
-        "400" : "COIN",
+        "2700" : "COIN",
+        "1550" : "MAGNETIC_COIN",
+        "400" : "MAGNETIC_COIN",
+        "2450" : "COIN",
+        "1300" : "COIN",
+        "150" : "DIAMOND",
+        "2200" : "DIAMOND",
+        "1050" : "DIAMOND",
+        "1950" : "MAGNETIC_COIN",
+        "800" : "MAGNETIC_COIN",
+        "1700" : "COIN",
+        "550" : "MAGNETIC_COIN",
+        "2600" : "MAGNETIC_COIN",
+        "1450" : "MAGNETIC_COIN",
+        "300" : "DIAMOND",
+        "2350" : "COIN",
+        "1200" : "MAGNETIC_COIN",
         "50" : "MAGNETIC_COIN",
-        "850" : "MAGNETIC_COIN",
-        "500" : "DIAMOND",
-        "150" : "COIN",
-        "950" : "DIAMOND",
-        "600" : "DIAMOND",
+        "2100" : "MAGNETIC_COIN",
+        "950" : "MAGNETIC_COIN",
+        "1850" : "COIN",
+        "700" : "COIN",
+        "2750" : "COIN",
+        "1600" : "DIAMOND",
+        "450" : "COIN",
+        "2500" : "MAGNETIC_COIN",
+        "1350" : "MAGNETIC_COIN",
+        "200" : "MAGNETIC_COIN",
+        "2250" : "MAGNETIC_COIN",
+        "1100" : "COIN",
+        "2000" : "MAGNETIC_COIN",
+        "850" : "COIN",
+        "1750" : "DIAMOND",
+        "600" : "MAGNETIC_COIN",
+        "2650" : "DIAMOND",
+        "1500" : "MAGNETIC_COIN",
+        "350" : "COIN",
+        "2400" : "DIAMOND",
+        "1250" : "MAGNETIC_COIN",
+        "100" : "DIAMOND",
+        "2150" : "MAGNETIC_COIN",
+        "1000" : "MAGNETIC_COIN",
+        "1900" : "DIAMOND",
+        "750" : "COIN",
+        "1650" : "MAGNETIC_COIN",
+        "500" : "MAGNETIC_COIN",
+        "2550" : "DIAMOND",
+        "1400" : "DIAMOND",
         "250" : "DIAMOND",
-        "700" : "MAGNETIC_COIN",
-        "350" : "MAGNETIC_COIN"
+        "2300" : "COIN",
+        "1150" : "MAGNETIC_COIN"
       },
       "obstacleMap" : {
         "0" : {
+          "necessaryMove" : "SLIDE",
+          "avoidChance" : 0.050000000000000044,
+          "avoidPoint" : 2
+        },
+        "2000" : {
           "necessaryMove" : "JUMP",
-          "avoidPoint" : 2,
-          "avoidChance" : 0.05
+          "avoidChance" : 0.050000000000000044,
+          "avoidPoint" : 2
         },
         "500" : {
-          "necessaryMove" : "SLIDE",
-          "avoidPoint" : 2,
-          "avoidChance" : 0.05
+          "necessaryMove" : "JUMP",
+          "avoidChance" : 0.050000000000000044,
+          "avoidPoint" : 2
+        },
+        "2500" : {
+          "necessaryMove" : "JUMP",
+          "avoidChance" : 0.050000000000000044,
+          "avoidPoint" : 2
         },
         "1000" : {
           "necessaryMove" : "JUMP",
-          "avoidPoint" : 2,
-          "avoidChance" : 0.05
+          "avoidChance" : 0.050000000000000044,
+          "avoidPoint" : 2
+        },
+        "1500" : {
+          "necessaryMove" : "JUMP",
+          "avoidChance" : 0.050000000000000044,
+          "avoidPoint" : 2
         }
       }
     },
-    "totalMeters" : 2039,
-    "score" : 15828,
-    "level" : "MODERATE"
+    "totalMeters" : 3785,
+    "score" : 67272,
+    "level" : "EXPERT"
   } ]
 }

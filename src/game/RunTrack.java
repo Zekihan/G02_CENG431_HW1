@@ -13,18 +13,12 @@ public class RunTrack implements IGameMap{
 
 
     public RunTrack(int perimeter, TrackType trackType) {
-        this.perimeter = perimeter;
+        setPerimeter(perimeter);
         this.trackType = trackType;
         this.currencyMap = new HashMap<>();
         this.obstacleMap = new HashMap<>();
-
-        for(int i=0; i < perimeter; i+=500){
-            obstacleMap.put(i, createRandomObstacle());
-        }
-
-        for(int i=0; i < perimeter; i+= 50){
-            currencyMap.put(i, createRandomCurrency());
-        }
+        generateRandomCurrencies();
+        generateRandomObstacles();
     }
 
 
@@ -48,23 +42,6 @@ public class RunTrack implements IGameMap{
         return obstacleMap.containsKey(position);
     }
 
-    private Currency createRandomCurrency() {
-
-        Currency[] currencies = Currency.values();
-        Random rand = new Random();
-        int i = rand.nextInt(currencies.length);
-        return currencies[i];
-
-    }
-
-    private IAvoidable createRandomObstacle(){
-    //TODO: Make the list assignment more generic?
-        IAvoidable[] obstacles = {new RockObstacle(), new SawObstacle(), new AqueductObstacle(), new FelledTreeObstacle()};
-        Random rand = new Random();
-        int i = rand.nextInt(obstacles.length);
-        return obstacles[i];
-    }
-
 
 
     public int getPerimeter() {
@@ -83,5 +60,51 @@ public class RunTrack implements IGameMap{
         return obstacleMap;
     }
 
+    private void setPerimeter(int perimeter){
+        if(perimeter <= 0){
+            try{
+                throw new IllegalRunTrackSizeException("Given run track perimeter cannot be less than or equal to 0!");
 
+            }catch(IllegalRunTrackSizeException e){
+                e.printStackTrace();
+            }
+        }else{
+            this.perimeter = perimeter;
+        }
+    }
+
+    //Generate a random currency
+    private Currency createRandomCurrency() {
+        Currency[] currencies = Currency.values();
+        Random rand = new Random();
+        int i = rand.nextInt(currencies.length);
+        return currencies[i];
+    }
+
+
+    //TODO: Put the random generator functions inside the GameEngine.java class!!
+    //Generate a random obstacle
+    private IAvoidable createRandomObstacle(){
+        //TODO: Make the list assignment more generic?
+        IAvoidable[] obstacles = {new RockObstacle(), new SawObstacle(), new AqueductObstacle(), new FelledTreeObstacle()};
+        Random rand = new Random();
+        int i = rand.nextInt(obstacles.length);
+        return obstacles[i];
+    }
+
+
+    //Create an obstacle map from randomly generated obstacles
+    private void generateRandomObstacles(){
+        for(int i=0; i < perimeter; i+=500){
+            obstacleMap.put(i, createRandomObstacle());
+        }
+    }
+
+
+    //Create an currency map from randomly generated currencies
+    private void generateRandomCurrencies(){
+        for(int i=0; i < perimeter; i+= 50){
+            currencyMap.put(i, createRandomCurrency());
+        }
+    }
 }

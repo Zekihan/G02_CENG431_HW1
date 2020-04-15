@@ -1,11 +1,13 @@
 package io;
 
+import game.IncorrectQuitButtonException;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JTextField;
 
-public class MyKeyListener  implements KeyListener {
+public class Gamepad implements KeyListener {
 
     JTextField textField;
 
@@ -21,7 +23,13 @@ public class MyKeyListener  implements KeyListener {
             textField.setText("q");
         }
         else{
-            textField.setText("");
+            try{
+                textField.setText("Incorrect key is given, you can press q to quit!");
+                throw new IncorrectQuitButtonException("Incorrect key is given, you can press Q to quit!");
+
+            }catch (IncorrectQuitButtonException e){
+                e.printStackTrace();
+            }
         }
     }
 

@@ -13,7 +13,7 @@ public abstract class Obstacle implements IAvoidable{
     }
 
     public double getAvoidChance(){
-        return necessaryMove.getProbability();
+        return 1-necessaryMove.getChanceOfFail();
     }
 
     public int getAvoidPoint(){

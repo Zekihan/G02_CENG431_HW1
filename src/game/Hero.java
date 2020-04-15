@@ -9,7 +9,6 @@ public class Hero {
     private boolean magnet;
     private int position;
 
-    //TODO: Maybe add package-access constructor? (To only enable the game engine to initiate hero object)
     public Hero(){
         this(new HashMap<>(), false, 0);
     }

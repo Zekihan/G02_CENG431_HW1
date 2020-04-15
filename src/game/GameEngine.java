@@ -1,16 +1,14 @@
 package game;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.sun.jdi.InvalidTypeException;
 import io.Display;
+import io.Gamepad;
 import io.IGameMonitor;
-import io.MyKeyListener;
 
 import java.io.IOException;
 import java.util.Random;
@@ -31,7 +29,6 @@ public class GameEngine {
                 , new Hero(), 0, 0, RandomEngine.randLevel(), false);
     }
 
-
     private GameEngine(RunTrack runTrack, Hero hero, int totalMeters, int score, Level level, boolean gameOver) {
         this.runTrack = runTrack;
         this.hero = hero;
@@ -39,7 +36,7 @@ public class GameEngine {
         this.score = score;
         this.level = level;
         this.gameOver = gameOver;
-        this.display = new Display(new MyKeyListener());
+        this.display = new Display(new Gamepad());
     }
 
     public void startGame(){

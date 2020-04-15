@@ -2,13 +2,11 @@ package game;
 
 public class GameReport {
 
-    //TODO: Knows about lots of things!!!!. Seperate concerns
-
-
     public String createGameReport(String deathReason, RunTrack runTrack, Hero hero, int totalMeters, int score, Level level){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Game Over\n")
-                    .append("----------\n")
+        stringBuilder.append("----------------\n")
+                    .append("Game Over\n")
+                    .append("-----------------\n")
                     .append("REPORT\n")
                     .append("Level: ").append(level.name()).append(" \n")
                     .append("Track type: ").append(runTrack.getTrackType().name()).append(" \n")

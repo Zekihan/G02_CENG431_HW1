@@ -10,11 +10,11 @@ public class Display implements IGameMonitor{
     JTextArea textField2;
     JFrame frame;
 
-    public Display(MyKeyListener action) {
+    public Display(Gamepad action) {
         initializeGUI(action);
     }
 
-    private void initializeGUI(MyKeyListener action){
+    private void initializeGUI(Gamepad action){
         this.frame = new JFrame("Key Listener");
         frame.setTitle("Runner Hero");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -56,7 +56,7 @@ public class Display implements IGameMonitor{
 
     public void displayEndGameReport(String reportInString){
         System.out.println(reportInString);
-        setText("**********GAME REPORT**********", reportInString);
+        setText("**********GAME REPORT**********\n", reportInString);
     }
 
     public void displayCollectedCurrency(String collectedCurrencyInString){
