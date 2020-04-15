@@ -24,22 +24,22 @@ public class RunTrack implements ICircularMap {
 
 
     public Collectable getCollectibleAtPosition(int position){
-
+        checkValidityOfPosition(position);
         return currencyMap.get(position);
     }
 
     public IAvoidable getObstacleAtPosition(int position){
-
+        checkValidityOfPosition(position);
         return obstacleMap.get(position);
     }
 
     public boolean checkForCollectible(int position){
-
+        checkValidityOfPosition(position);
         return currencyMap.containsKey(position);
     }
 
     public boolean checkForObstacle(int position){
-
+        checkValidityOfPosition(position);
         return obstacleMap.containsKey(position);
     }
 
@@ -81,5 +81,12 @@ public class RunTrack implements ICircularMap {
             copyMap.put(nextPosition, obstacleMap.get(nextPosition));
         }
         return copyMap;
+    }
+
+    //Checks whether the given position argument is negative, if so throws an IllegalArgumentException.
+    private void checkValidityOfPosition(int position){
+        if(position < 0){
+            throw new IllegalArgumentException("Given position argument cannot be a negative value.");
+        }
     }
 }
