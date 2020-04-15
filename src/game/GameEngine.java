@@ -10,6 +10,8 @@ import io.Gamepad;
 import io.IGameMonitor;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -26,12 +28,12 @@ public class GameEngine {
 
 
     public GameEngine() {
-        this(new RunTrack(RandomEngine.randPerimeterInRange(1000,10000), RandomEngine.randTrackType())
-                , new Hero(), new Monster(), 0, 0, RandomEngine.randLevel(), false);
+        this(new Hero(), new Monster(), 0, 0, RandomEngine.randLevel(), false);
     }
 
-    private GameEngine(RunTrack runTrack, Hero hero, Monster monster, int totalMeters, int score, Level level, boolean gameOver) {
-        this.runTrack = runTrack;
+    private GameEngine(Hero hero, Monster monster, int totalMeters, int score, Level level, boolean gameOver) {
+        int perimeter = RandomEngine.randPerimeterInRange(1000,10000);
+        this.runTrack = new RunTrack(perimeter, RandomEngine.randTrackType(), generateRandomCurrencies(perimeter), generateRandomObstacles(perimeter));
         this.hero = hero;
         this.monster = monster;
         this.totalMeters = totalMeters;
@@ -119,8 +121,42 @@ public class GameEngine {
         }
     }
 
+    //Generate a random currency
+    private Currency createRandomCurrency() {
+        Currency[] currencies = Currency.values();
+        Random rand = new Random();
+        int i = rand.nextInt(currencies.length);
+        return currencies[i];
+    }
+
+    //Generate a random obstacle
+    private IAvoidable createRandomObstacle(){
+        //TODO: Make the list assignment more generic?
+        IAvoidable[] obstacles = {new RockObstacle(), new SawObstacle(), new AqueductObstacle(), new FelledTreeObstacle()};
+        Random rand = new Random();
+        int i = rand.nextInt(obstacles.length);
+        return obstacles[i];
+    }
 
 
+    //Create an obstacle map from randomly generated obstacles
+    private Map<Integer, IAvoidable> generateRandomObstacles(int perimeter){
+        Map<Integer,IAvoidable> obstacleMap = new HashMap<>();
+        for(int i=0; i < perimeter; i+=500){
+            obstacleMap.put(i, createRandomObstacle());
+        }
+        return obstacleMap;
+    }
+
+
+    //Create an currency map from randomly generated currencies
+    private Map<Integer, Currency> generateRandomCurrencies(int perimeter){
+        Map<Integer,Currency> currencyMap = new HashMap<>();
+        for(int i=0; i < perimeter; i+= 50){
+            currencyMap.put(i, createRandomCurrency());
+        }
+        return currencyMap;
+    }
 
     //Determines whether the hero will stumble or not
     private boolean checkStumbleCondition(IAvoidable obstacleEncountered){

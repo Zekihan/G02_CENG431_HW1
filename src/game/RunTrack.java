@@ -14,13 +14,11 @@ public class RunTrack implements IGameMap{
     private Map<Integer,IAvoidable> obstacleMap;
 
 
-    public RunTrack(int perimeter, TrackType trackType) {
+    public RunTrack(int perimeter, TrackType trackType, Map<Integer,Currency> currencyMap, Map<Integer,IAvoidable> obstacleMap) {
         setPerimeter(perimeter);
         this.trackType = trackType;
-        this.currencyMap = new HashMap<>();
-        this.obstacleMap = new HashMap<>();
-        generateRandomCurrencies();
-        generateRandomObstacles();
+        this.currencyMap = currencyMap;
+        this.obstacleMap = obstacleMap;
     }
 
 
@@ -44,38 +42,7 @@ public class RunTrack implements IGameMap{
         return obstacleMap.containsKey(position);
     }
 
-    //Generate a random currency
-    private Currency createRandomCurrency() {
-        Currency[] currencies = Currency.values();
-        Random rand = new Random();
-        int i = rand.nextInt(currencies.length);
-        return currencies[i];
-    }
 
-    //Generate a random obstacle
-    private IAvoidable createRandomObstacle(){
-        //TODO: Make the list assignment more generic?
-        IAvoidable[] obstacles = {new RockObstacle(), new SawObstacle(), new AqueductObstacle(), new FelledTreeObstacle()};
-        Random rand = new Random();
-        int i = rand.nextInt(obstacles.length);
-        return obstacles[i];
-    }
-
-
-    //Create an obstacle map from randomly generated obstacles
-    private void generateRandomObstacles(){
-        for(int i=0; i < perimeter; i+=500){
-            obstacleMap.put(i, createRandomObstacle());
-        }
-    }
-
-
-    //Create an currency map from randomly generated currencies
-    private void generateRandomCurrencies(){
-        for(int i=0; i < perimeter; i+= 50){
-            currencyMap.put(i, createRandomCurrency());
-        }
-    }
 
     public int getPerimeter() {
         return perimeter;
