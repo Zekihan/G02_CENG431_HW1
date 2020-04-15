@@ -24,7 +24,7 @@ public class RunTrack implements IGameMap{
     }
 
 
-    public Collectable getCurrencyAtPosition(int position){
+    public Collectable getCollectibleAtPosition(int position){
 
         return currencyMap.get(position);
     }
@@ -34,7 +34,7 @@ public class RunTrack implements IGameMap{
         return obstacleMap.get(position);
     }
 
-    public boolean checkForCurrency(int position){
+    public boolean checkForCollectible(int position){
 
         return currencyMap.containsKey(position);
     }

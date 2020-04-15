@@ -48,6 +48,8 @@ public class GameEngine {
 
     public void startGame(){
 
+        displayDifficultyAndTheme();
+
         while(!gameOver){
 
             //Player presses 'q' to quit
@@ -94,14 +96,14 @@ public class GameEngine {
             }
 
             //Hero sees a currency
-            if(runTrack.checkForCurrency(hero.getPosition())){
-                Collectable collectable = runTrack.getCurrencyAtPosition(hero.getPosition());
+            if(runTrack.checkForCollectible(hero.getPosition())){
+                Collectable collectable = runTrack.getCollectibleAtPosition(hero.getPosition());
 
                 //Currency requires magnet (Magnetic Coin)
                 if(!collectable.requiresMagnet() || hero.hasMagnet()){
                     hero.collect(collectable);
                     score += collectable.getValue() * level.getMultiplier();
-                    display.collectedCurrency(collectable.toString());
+                    display.collectedItem(collectable.toString());
                 }
 
             }
@@ -221,6 +223,10 @@ public class GameEngine {
     //Reset hero's position
     private void resetPosition(){
         hero.setPosition(0);
+    }
+
+    private void displayDifficultyAndTheme(){
+        display.displayInitialGameProperties(runTrack.getTrackType().toString(), level.toString());
     }
 
 }

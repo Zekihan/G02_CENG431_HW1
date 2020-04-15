@@ -5,11 +5,15 @@ import utilities.Collectable;
 
 public interface IGameMap {
 
-    public Collectable getCurrencyAtPosition(int position);
+    /* Returns the collectible at the given position of the game map */
+    public Collectable getCollectibleAtPosition(int position);
 
+    /* Returns the avoidable (obstacle) at the given position of the map */
     public IAvoidable getObstacleAtPosition(int position);
 
-    public boolean checkForCurrency(int position);
+    /* Returns true if a collectible is present at the given position, false if not */
+    public boolean checkForCollectible(int position);
 
+    /* Returns true if an obstacle (IAvoidable) is present at the given position, false if not */
     public boolean checkForObstacle(int position);
 }

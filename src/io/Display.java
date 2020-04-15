@@ -56,26 +56,32 @@ public class Display implements IGameMonitor{
 
     public void endGameReport(String reportStr){
         System.out.println(reportStr);
-        setText("**********GAME REPORT**********\n", reportStr);
+        setText("\n**********GAME REPORT**********\n", reportStr);
     }
 
-    public void collectedCurrency(String collectedCurrencyStr){
-        String screenText = "Hero has collected " + collectedCurrencyStr + "!!";
+    public void collectedItem(String collectedItemStr){
+        String screenText = "Hero has collected " + collectedItemStr + "!";
         System.out.println(screenText);
-        setText("+score -> ", screenText);
+        setText("+SCORE -> ", screenText);
     }
 
     public void avoidedObstacle(String avoidedObstacleStr){
         System.out.println(avoidedObstacleStr);
-        setText("+score -> ", avoidedObstacleStr);
+        setText("+SCORE -> ", avoidedObstacleStr);
     }
 
-
     public void reachedDestination(String reachedDestinationStr) {
-        String destinationInString = String.valueOf(reachedDestinationStr);
-        String textScreen = "Hero has reached to " + destinationInString + " meters!!";
+        String textScreen = "Hero has reached to " + reachedDestinationStr + " meters!!";
         System.out.println(textScreen);
         setText("",textScreen);
+    }
+
+    public void displayInitialGameProperties(String themeStr, String difficultyStr){
+        setText("\t\t", "*********************");
+        setText("\t\t", "  RUNNER HERO  ");
+        setText("\t\t", "*********************");
+        setText(" -> Theme: ", themeStr);
+        setText(" -> Difficulty: ", difficultyStr + "\n");
     }
 
 }
