@@ -225,6 +225,7 @@ public class GameEngine {
         hero.setPosition(0);
     }
 
+    //Display game's initially generated properties
     private void displayDifficultyAndTheme(){
         display.displayInitialGameProperties(runTrack.getTrackType().toString(), level.toString());
     }
