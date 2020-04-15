@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import exceptions.GameEngineNotInitializedException;
 import game.map.ICircularMap;
 import io.Display;
 import io.Gamepad;
@@ -18,6 +19,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.System.exit;
+
 public class GameEngine {
 
     private ICircularMap runTrack;
@@ -28,6 +31,7 @@ public class GameEngine {
     private Level level;
     private boolean gameOver;
     private IGameMonitor display;
+    private boolean initialized;
 
 
     public GameEngine() {
@@ -126,6 +130,7 @@ public class GameEngine {
 
         }
     }
+
 
     private void waitDisplay(long miliseconds){
         try {

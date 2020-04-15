@@ -5,6 +5,5 @@ public class RunnerHeroApp {
 
         GameEngine gameEngine = new GameEngine();
         gameEngine.startGame();
-
     }
 }
