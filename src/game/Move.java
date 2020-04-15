@@ -1,19 +1,19 @@
 package game;
 
 public enum Move {
-    //TODO: Seems to know about Probability enum. Maybe make a change here?
-    JUMP(Probability.STUMBLE.getChance(), 2), SLIDE(Probability.STUMBLE.getChance(), 2);
 
-    private final double chanceOfFail;
+    JUMP(0.05, 2), SLIDE(0.05, 2);
+
+    private final double failChance;
     private final int point;
 
-    private Move(double chanceOfFail, int point) {
-        this.chanceOfFail = chanceOfFail;
+    Move(double failChance, int point) {
+        this.failChance = failChance;
         this.point = point;
     }
 
-    public double getChanceOfFail() {
-        return chanceOfFail;
+    public double getFailChance() {
+        return failChance;
     }
 
     public int getPoint() {

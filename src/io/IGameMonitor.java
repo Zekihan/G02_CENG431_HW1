@@ -1,17 +1,14 @@
 package io;
 
-import game.Currency;
-import game.Obstacle;
-
 public interface IGameMonitor {
 
-    public void displayEndGameReport(String reportInString);
+    public void endGameReport(String reportStr);
 
-    public void displayCollectedCurrency(String collectedCurrencyInString);
+    public void collectedCurrency(String collectedCurrencyStr);
 
-    public void displayAvoidedObstacle(String avoidedObstacleInString);
+    public void avoidedObstacle(String avoidedObstacleStr);
 
-    public void displayReachedDestination(String reachedDestinationInString);
+    public void reachedDestination(String reachedDestinationStr);
 
     public String getKeyEvent();
 }

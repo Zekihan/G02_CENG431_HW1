@@ -54,25 +54,25 @@ public class Display implements IGameMonitor{
         return textField.getText();
     }
 
-    public void displayEndGameReport(String reportInString){
-        System.out.println(reportInString);
-        setText("**********GAME REPORT**********\n", reportInString);
+    public void endGameReport(String reportStr){
+        System.out.println(reportStr);
+        setText("**********GAME REPORT**********\n", reportStr);
     }
 
-    public void displayCollectedCurrency(String collectedCurrencyInString){
-        String screenText = "Hero has collected " + collectedCurrencyInString + "!!";
+    public void collectedCurrency(String collectedCurrencyStr){
+        String screenText = "Hero has collected " + collectedCurrencyStr + "!!";
         System.out.println(screenText);
         setText("+score -> ", screenText);
     }
 
-    public void displayAvoidedObstacle(String avoidedObstacleInString){
-        System.out.println(avoidedObstacleInString);
-        setText("+score -> ", avoidedObstacleInString);
+    public void avoidedObstacle(String avoidedObstacleStr){
+        System.out.println(avoidedObstacleStr);
+        setText("+score -> ", avoidedObstacleStr);
     }
 
 
-    public void displayReachedDestination(String reachedDestinationInString) {
-        String destinationInString = String.valueOf(reachedDestinationInString);
+    public void reachedDestination(String reachedDestinationStr) {
+        String destinationInString = String.valueOf(reachedDestinationStr);
         String textScreen = "Hero has reached to " + destinationInString + " meters!!";
         System.out.println(textScreen);
         setText("",textScreen);

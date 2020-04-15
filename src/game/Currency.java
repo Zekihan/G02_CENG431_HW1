@@ -10,7 +10,7 @@ public enum Currency {
     private final boolean requiresMagnet;
     private final int value;
 
-    private Currency(int value, boolean requiresMagnet){
+    Currency(int value, boolean requiresMagnet){
         this.value = value;
         this.requiresMagnet = requiresMagnet;
     }

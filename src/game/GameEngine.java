@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sun.jdi.InvalidTypeException;
 import io.Display;
 import io.Gamepad;
 import io.IGameMonitor;
@@ -18,20 +17,23 @@ public class GameEngine {
 
     private RunTrack runTrack;
     private Hero hero;
+    private Monster monster;
     private int totalMeters;
     private int score;
     private Level level;
     private boolean gameOver;
     private IGameMonitor display;
 
+
     public GameEngine() {
         this(new RunTrack(RandomEngine.randPerimeterInRange(1000,10000), RandomEngine.randTrackType())
-                , new Hero(), 0, 0, RandomEngine.randLevel(), false);
+                , new Hero(), new Monster(), 0, 0, RandomEngine.randLevel(), false);
     }
 
-    private GameEngine(RunTrack runTrack, Hero hero, int totalMeters, int score, Level level, boolean gameOver) {
+    private GameEngine(RunTrack runTrack, Hero hero, Monster monster, int totalMeters, int score, Level level, boolean gameOver) {
         this.runTrack = runTrack;
         this.hero = hero;
+        this.monster = monster;
         this.totalMeters = totalMeters;
         this.score = score;
         this.level = level;
@@ -46,7 +48,7 @@ public class GameEngine {
             //Player presses 'q' to quit
             if (display.getKeyEvent().equals("q")){
                 gameOver = true;
-                endReport("Player quitted");
+                endReport("Player quit");
                 try{
                     saveProgress();
                 }catch (Exception e){
@@ -58,7 +60,7 @@ public class GameEngine {
             //Monster eats the hero
             if(checkMonsterCondition()){
                 gameOver = true;
-                endReport("Eaten by a monster");
+                endReport(monster.getEatResult());
                 break;
             }
 
@@ -82,7 +84,7 @@ public class GameEngine {
                  //Hero avoids the obstacle
                 }else {
                     score += obstacleEncountered.getAvoidPoint() * level.getMultiplier();
-                    display.displayAvoidedObstacle(obstacleEncountered.avoidEffect());
+                    display.avoidedObstacle(obstacleEncountered.avoidEffect());
                 }
             }
 
@@ -94,7 +96,7 @@ public class GameEngine {
                 if(!currency.requiresMagnet() || hero.hasMagnet()){
                     hero.collect(currency);
                     score += currency.getValue() * level.getMultiplier();
-                    display.displayCollectedCurrency(currency.toString());
+                    display.collectedCurrency(currency.toString());
                 }
 
             }
@@ -110,37 +112,41 @@ public class GameEngine {
 
             //Hero has completed one iteration of run track, reset the run track's content (currencies)
             if(hero.getPosition() > runTrack.getPerimeter()){
-                display.displayReachedDestination(String.valueOf(totalMeters));
+                display.reachedDestination(String.valueOf(totalMeters));
                 hero.resetPosition();
             }
 
         }
     }
 
+
+
+
     //Determines whether the hero will stumble or not
     private boolean checkStumbleCondition(IAvoidable obstacleEncountered){
         Random rand = new Random();
         double randVal = rand.nextDouble();
-        return randVal < obstacleEncountered.getAvoidChance();
+        return !(randVal < obstacleEncountered.getAvoidChance());
     }
 
     //Determines whether the monster will eat the hero or not
     private boolean checkMonsterCondition(){
         Random rand = new Random();
         if(totalMeters % 1500 == 0) {
+
             double randVal = rand.nextDouble();
-            return randVal < Probability.MONSTER.getChance();
+            return randVal < monster.getEatChance();
         }
         return false;
     }
 
 
     //Save player's progress into the game_progress.json file as a json object
-    private void saveProgress() throws InvalidTypeException {
-        ProgressHandler progressHandler = new ProgressHandler("./game_progress.json", Operation.WRITE);
+    private void saveProgress() {
+        ProgressHandler progressHandler = new ProgressHandler("./game_progress.json");
         ObjectMapper mapper = new ObjectMapper();
         boolean saved = false;
-        JsonNodeFactory f = JsonNodeFactory.instance ;
+        JsonNodeFactory f = JsonNodeFactory.instance;
         ObjectNode gameProgress = f.objectNode();
         ArrayNode objectArray = gameProgress.putArray("gameProgress");
         ObjectNode valuesNode = f.objectNode();
@@ -155,11 +161,12 @@ public class GameEngine {
         }
         objectArray.add(valuesNode);
         try {
-            saved = progressHandler.saveGameProgress(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(gameProgress));
+            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(gameProgress);
+            saved = progressHandler.saveGameProgress(jsonString);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        System.out.println("Progress saved: " + String.valueOf(saved));
+        System.out.println("Progress saved: " + saved);
 
     }
 
@@ -167,7 +174,7 @@ public class GameEngine {
     private void endReport(String deathReason){
         GameReport gameReport = new GameReport();
         String report = gameReport.createGameReport(deathReason,runTrack,hero,totalMeters,score,level);
-        display.displayEndGameReport(report);
+        display.endGameReport(report);
     }
 
 

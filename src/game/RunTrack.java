@@ -1,5 +1,7 @@
 package game;
 
+import exceptions.IllegalRunTrackSizeException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -42,37 +44,6 @@ public class RunTrack implements IGameMap{
         return obstacleMap.containsKey(position);
     }
 
-
-
-    public int getPerimeter() {
-        return perimeter;
-    }
-
-    public TrackType getTrackType() {
-        return trackType;
-    }
-
-    public Map<Integer, Currency> getCurrencyMap() {
-        return currencyMap;
-    }
-
-    public Map<Integer, IAvoidable> getObstacleMap() {
-        return obstacleMap;
-    }
-
-    private void setPerimeter(int perimeter){
-        if(perimeter <= 0){
-            try{
-                throw new IllegalRunTrackSizeException("Given run track perimeter cannot be less than or equal to 0!");
-
-            }catch(IllegalRunTrackSizeException e){
-                e.printStackTrace();
-            }
-        }else{
-            this.perimeter = perimeter;
-        }
-    }
-
     //Generate a random currency
     private Currency createRandomCurrency() {
         Currency[] currencies = Currency.values();
@@ -81,8 +52,6 @@ public class RunTrack implements IGameMap{
         return currencies[i];
     }
 
-
-    //TODO: Put the random generator functions inside the GameEngine.java class!!
     //Generate a random obstacle
     private IAvoidable createRandomObstacle(){
         //TODO: Make the list assignment more generic?
@@ -105,6 +74,35 @@ public class RunTrack implements IGameMap{
     private void generateRandomCurrencies(){
         for(int i=0; i < perimeter; i+= 50){
             currencyMap.put(i, createRandomCurrency());
+        }
+    }
+
+    public int getPerimeter() {
+        return perimeter;
+    }
+
+    public TrackType getTrackType() {
+        return trackType;
+    }
+
+    //Necessary for saving progress to json
+    public Map<Integer, Currency> getCurrencyMap() {
+        return currencyMap;
+    }
+    public Map<Integer, IAvoidable> getObstacleMap() {
+        return obstacleMap;
+    }
+
+    private void setPerimeter(int perimeter){
+        if(perimeter <= 0){
+            try{
+                throw new IllegalRunTrackSizeException("Given run track perimeter cannot be less than or equal to 0!");
+
+            }catch(IllegalRunTrackSizeException e){
+                e.printStackTrace();
+            }
+        }else{
+            this.perimeter = perimeter;
         }
     }
 }

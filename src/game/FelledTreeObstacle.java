@@ -8,11 +8,11 @@ public class FelledTreeObstacle extends SlidableObstacle{
 
     @Override
     public String avoidEffect() {
-        return "User has slided under tree.";
+        return "Hero has slided under tree.";
     }
 
     @Override
     public String stumbleEffect() {
-        return "User has stumbled into a tree obstacle and died.";
+        return "Hero has stumbled into a tree obstacle.";
     }
 }

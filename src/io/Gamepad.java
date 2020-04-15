@@ -1,8 +1,7 @@
 package io;
 
-import game.IncorrectQuitButtonException;
+import exceptions.IncorrectQuitButtonException;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JTextField;
