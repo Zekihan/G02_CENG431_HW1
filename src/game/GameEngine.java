@@ -7,10 +7,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.Display;
 import io.Gamepad;
 import io.IGameMonitor;
-import maps.RunTrack;
-import avoidables.*;
-import players.Hero;
-import utilities.*;
+import game.map.RunTrack;
+import game.avoidables.*;
+import game.utilities.*;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -48,7 +47,8 @@ public class GameEngine {
 
     public void startGame(){
 
-        displayDifficultyAndTheme();
+        displayGameProperties();
+        waitDisplay(2000);
 
         while(!gameOver){
 
@@ -74,16 +74,11 @@ public class GameEngine {
             //Hero encounters an obstacle
             if(runTrack.checkForObstacle(hero.getPosition())){
                 //Wait function for pretty print the events
-                try {
-                    TimeUnit.MILLISECONDS.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
                 IAvoidable obstacleEncountered = runTrack.getObstacleAtPosition(hero.getPosition());
 
                 //Hero stumbles upon the obstacle
-                if(checkStumbleCondition(obstacleEncountered)){
+                if(checkStumbleCondition(obstacleEncountered) && totalMeters!=0){
                     gameOver = true;
                     endReport(obstacleEncountered.stumbleEffect());
                     break;
@@ -92,6 +87,7 @@ public class GameEngine {
                 }else {
                     score += obstacleEncountered.getAvoidPoint() * level.getMultiplier();
                     display.avoidedObstacle(obstacleEncountered.avoidEffect());
+                    waitDisplay(1000);
                 }
             }
 
@@ -104,7 +100,9 @@ public class GameEngine {
                     hero.collect(collectable);
                     score += collectable.getValue() * level.getMultiplier();
                     display.collectedItem(collectable.toString());
+                    waitDisplay(250);
                 }
+
 
             }
 
@@ -126,6 +124,14 @@ public class GameEngine {
         }
     }
 
+    private void waitDisplay(long miliseconds){
+        try {
+            TimeUnit.MILLISECONDS.sleep(miliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     //Generate a random currency
     private Collectable createRandomCurrency() {
         Collectable[] currencies = Collectable.values();
@@ -144,7 +150,7 @@ public class GameEngine {
     }
 
 
-    //Create an obstacle map from randomly generated obstacles
+    //Create an obstacle game.map from randomly generated obstacles
     private Map<Integer, IAvoidable> generateRandomObstacles(int perimeter){
         Map<Integer,IAvoidable> obstacleMap = new HashMap<>();
         for(int i=0; i < perimeter; i+=500){
@@ -154,7 +160,7 @@ public class GameEngine {
     }
 
 
-    //Create an currency map from randomly generated currencies
+    //Create an currency game.map from randomly generated currencies
     private Map<Integer, Collectable> generateRandomCurrencies(int perimeter){
         Map<Integer, Collectable> currencyMap = new HashMap<>();
         for(int i=0; i < perimeter; i+= 50){
@@ -173,8 +179,9 @@ public class GameEngine {
     //Determines whether the monster will eat the hero or not
     private boolean checkMonsterCondition(){
         Random rand = new Random();
-        if(totalMeters % 1500 == 0) {
-
+        if(totalMeters % 1500 == 0 && totalMeters!= 0) {
+            display.encounteredMonster();
+            waitDisplay(1000);
             double randVal = rand.nextDouble();
             return randVal < monster.getEatChance();
         }
@@ -186,7 +193,6 @@ public class GameEngine {
     private void saveProgress() {
         ProgressHandler progressHandler = new ProgressHandler();
         ObjectMapper mapper = new ObjectMapper();
-        boolean saved = false;
         JsonNodeFactory f = JsonNodeFactory.instance;
         ObjectNode gameProgress = f.objectNode();
         ArrayNode objectArray = gameProgress.putArray("gameProgress");
@@ -201,7 +207,7 @@ public class GameEngine {
             e.printStackTrace();
         }
         objectArray.add(valuesNode);
-        saved = progressHandler.saveGameProgress(gameProgress);
+        boolean saved = progressHandler.saveGameProgress(gameProgress);
         System.out.println("Progress saved: " + saved);
 
     }
@@ -209,7 +215,8 @@ public class GameEngine {
     //End of the game, player's score, cause of death, etc. is displayed
     private void endReport(String deathReason){
         GameReport gameReport = new GameReport();
-        String report = gameReport.createGameReport(deathReason,runTrack,hero,totalMeters,score,level);
+        String report = gameReport.createGameReport(deathReason, runTrack.getPerimeter()
+                , runTrack.getTrackType().toString(), hero.totalItems(), hero.totalDiamonds(), score, level.toString());
         display.endGameReport(report);
     }
 
@@ -226,8 +233,8 @@ public class GameEngine {
     }
 
     //Display game's initially generated properties
-    private void displayDifficultyAndTheme(){
-        display.displayInitialGameProperties(runTrack.getTrackType().toString(), level.toString());
+    private void displayGameProperties(){
+        display.initialGameProperties(runTrack.getTrackType().toString(), level.toString());
     }
 
 }

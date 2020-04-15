@@ -1,6 +1,4 @@
-package players;
-
-import utilities.Collectable;
+package game;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +10,7 @@ public class Hero {
     private int position;
 
     public Hero(){
-        this(new HashMap<>(), false, 0);
+        this(new HashMap<>(), false, 1);
     }
 
     public Hero(Map<Collectable, Integer> chest, boolean magnet, int position) {
@@ -57,7 +55,7 @@ public class Hero {
     }
 
     public Map<Collectable, Integer> getChest() {
-        Map<Collectable, Integer> copyChest = new HashMap<Collectable, Integer>(chest.size());
+        Map<Collectable, Integer> copyChest = new HashMap<>(chest.size());
         for(Collectable nextCollectable : chest.keySet()){
             copyChest.put(nextCollectable, chest.get(nextCollectable));
         }

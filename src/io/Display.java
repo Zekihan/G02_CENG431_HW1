@@ -62,26 +62,36 @@ public class Display implements IGameMonitor{
     public void collectedItem(String collectedItemStr){
         String screenText = "Hero has collected " + collectedItemStr + "!";
         System.out.println(screenText);
-        setText("+SCORE -> ", screenText);
+        setText(" -> ", screenText);
     }
 
     public void avoidedObstacle(String avoidedObstacleStr){
         System.out.println(avoidedObstacleStr);
-        setText("+SCORE -> ", avoidedObstacleStr);
+        setText(" -> ", avoidedObstacleStr);
     }
 
     public void reachedDestination(String reachedDestinationStr) {
         String textScreen = "Hero has reached to " + reachedDestinationStr + " meters!!";
         System.out.println(textScreen);
-        setText("",textScreen);
+        setText(" -> ",textScreen);
     }
 
-    public void displayInitialGameProperties(String themeStr, String difficultyStr){
-        setText("\t\t", "*********************");
-        setText("\t\t", "  RUNNER HERO  ");
-        setText("\t\t", "*********************");
-        setText(" -> Theme: ", themeStr);
-        setText(" -> Difficulty: ", difficultyStr + "\n");
+    public void initialGameProperties(String themeStr, String difficultyStr){
+        String msg ="\t\t*********************\n" +
+                    "\t\t  RUNNER HERO  \n" +
+                    "\t\t*********************\n" +
+                    " -> Theme: " + themeStr + "\n" +
+                    " -> Difficulty: " + difficultyStr + "\n";
+        System.out.println(msg);
+        setText("", msg);
+
+
+    }
+
+    public void encounteredMonster(){
+        String msg = "Hero encountered a bloody monster !";
+        System.out.println(msg);
+        setText(" -> ", msg);
     }
 
 }

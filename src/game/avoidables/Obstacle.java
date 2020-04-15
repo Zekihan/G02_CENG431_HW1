@@ -1,6 +1,4 @@
-package avoidables;
-
-import utilities.Move;
+package game.avoidables;
 
 public abstract class Obstacle implements IAvoidable{
 

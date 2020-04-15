@@ -15,8 +15,13 @@ public interface IGameMonitor {
     public void reachedDestination(String reachedDestinationStr);
 
     /* Displays the game's theme, difficulty, etc. properties to the screen */
-    public void displayInitialGameProperties(String themeStr, String difficultyStr);
+    public void initialGameProperties(String themeStr, String difficultyStr);
+
+    /* Displays the monster encountered */
+    public void encounteredMonster();
 
     /**/
     public String getKeyEvent();
+
+
 }

@@ -1,9 +1,8 @@
-package maps;
+package game.map;
 
 import exceptions.IllegalRunTrackSizeException;
-import avoidables.IAvoidable;
-import utilities.Collectable;
-import utilities.TrackType;
+import game.avoidables.IAvoidable;
+import game.Collectable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,25 +53,6 @@ public class RunTrack implements IGameMap{
         return trackType;
     }
 
-    //Necessary for saving progress to json
-    public Map<Integer, Collectable> getCurrencyMap() {
-        Map<Integer, Collectable> copyMap = new HashMap<Integer, Collectable>(currencyMap.size());
-        for(Integer nextPosition: currencyMap.keySet()){
-            copyMap.put(nextPosition, currencyMap.get(nextPosition));
-        }
-        return copyMap;
-    }
-
-
-    public Map<Integer, IAvoidable> getObstacleMap() {
-        Map<Integer, IAvoidable> copyMap = new HashMap<Integer, IAvoidable>(obstacleMap.size());
-        for(Integer nextPosition: obstacleMap.keySet()){
-            copyMap.put(nextPosition, obstacleMap.get(nextPosition));
-        }
-        return copyMap;
-    }
-
-
     private void setPerimeter(int perimeter){
         if(perimeter <= 0){
             try{
@@ -84,5 +64,22 @@ public class RunTrack implements IGameMap{
         }else{
             this.perimeter = perimeter;
         }
+    }
+
+    //Necessary for saving progress to json
+    public Map<Integer, Collectable> getCurrencyMap() {
+        Map<Integer, Collectable> copyMap = new HashMap<>(currencyMap.size());
+        for(Integer nextPosition: currencyMap.keySet()){
+            copyMap.put(nextPosition, currencyMap.get(nextPosition));
+        }
+        return copyMap;
+    }
+
+    public Map<Integer, IAvoidable> getObstacleMap() {
+        Map<Integer, IAvoidable> copyMap = new HashMap<>(obstacleMap.size());
+        for(Integer nextPosition: obstacleMap.keySet()){
+            copyMap.put(nextPosition, obstacleMap.get(nextPosition));
+        }
+        return copyMap;
     }
 }

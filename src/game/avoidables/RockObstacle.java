@@ -1,4 +1,4 @@
-package avoidables;
+package game.avoidables;
 
 public class RockObstacle extends JumpableObstacle{
 

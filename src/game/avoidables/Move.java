@@ -1,4 +1,4 @@
-package utilities;
+package game.avoidables;
 
 public enum Move {
 

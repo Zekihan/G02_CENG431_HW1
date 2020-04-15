@@ -1,7 +1,7 @@
-package utilities;
+package game.utilities;
 
-import utilities.Level;
-import utilities.TrackType;
+import game.Level;
+import game.map.TrackType;
 
 import java.util.Random;
 

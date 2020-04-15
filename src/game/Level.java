@@ -1,4 +1,4 @@
-package utilities;
+package game;
 
 public enum Level {
 
@@ -9,7 +9,7 @@ public enum Level {
 
     private final int multiplier;
 
-    private Level(int val){
+    Level(int val){
         multiplier = val;
     }
 

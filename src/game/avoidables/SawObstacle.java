@@ -1,4 +1,4 @@
-package avoidables;
+package game.avoidables;
 
 public class SawObstacle extends JumpableObstacle{
 
@@ -13,6 +13,6 @@ public class SawObstacle extends JumpableObstacle{
 
     @Override
     public String stumbleEffect() {
-        return "Hero has rushed into a saw obstacle, and his/her body is split into two.";
+        return "Hero has rushed into a saw obstacle, split into two.";
     }
 }

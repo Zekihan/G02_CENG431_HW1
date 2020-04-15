@@ -1,4 +1,4 @@
-package utilities;
+package game;
 
 
 public enum Collectable {
@@ -10,7 +10,7 @@ public enum Collectable {
     private final boolean requiresMagnet;
     private final int value;
 
-    private Collectable(int value, boolean requiresMagnet){
+    Collectable(int value, boolean requiresMagnet){
         this.value = value;
         this.requiresMagnet = requiresMagnet;
     }

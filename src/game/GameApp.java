@@ -1,6 +1,6 @@
 package game;
 
-public class Main {
+public class GameApp {
     public static void main(String[] args){
 
         GameEngine gameEngine = new GameEngine();
