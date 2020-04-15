@@ -1,4 +1,7 @@
-package game;
+package utilities;
+
+import utilities.Level;
+import utilities.TrackType;
 
 import java.util.Random;
 

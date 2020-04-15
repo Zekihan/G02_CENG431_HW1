@@ -1,6 +1,9 @@
-package game;
+package maps;
 
 import exceptions.IllegalRunTrackSizeException;
+import avoidables.IAvoidable;
+import utilities.Collectable;
+import utilities.TrackType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +13,7 @@ public class RunTrack implements IGameMap{
     private int perimeter;
     private TrackType trackType;
     private Map<Integer, Collectable> currencyMap;
-    private Map<Integer,IAvoidable> obstacleMap;
+    private Map<Integer, IAvoidable> obstacleMap;
 
 
     public RunTrack(int perimeter, TrackType trackType, Map<Integer, Collectable> currencyMap, Map<Integer,IAvoidable> obstacleMap) {

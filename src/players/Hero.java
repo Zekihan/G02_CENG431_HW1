@@ -1,4 +1,6 @@
-package game;
+package players;
+
+import utilities.Collectable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,7 +71,7 @@ public class Hero {
         this.chest = chest;
     }
 
-    void setPosition(int position){
+    public void setPosition(int position){
         if(position < 0){
             throw new IllegalArgumentException("Given position argument cannot be a negative value.");
         }

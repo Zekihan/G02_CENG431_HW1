@@ -1,4 +1,8 @@
-package game;
+package utilities;
+
+import maps.RunTrack;
+import players.Hero;
+import utilities.Level;
 
 public class GameReport {
 

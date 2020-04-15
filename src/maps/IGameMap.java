@@ -1,4 +1,7 @@
-package game;
+package maps;
+
+import avoidables.IAvoidable;
+import utilities.Collectable;
 
 public interface IGameMap {
 

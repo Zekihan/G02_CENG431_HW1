@@ -1,4 +1,4 @@
-package game;
+package avoidables;
 
 public class AqueductObstacle extends SlidableObstacle{
 
