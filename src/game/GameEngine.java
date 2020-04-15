@@ -1,6 +1,5 @@
 package game;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -92,13 +91,13 @@ public class GameEngine {
 
             //Hero sees a currency
             if(runTrack.checkForCurrency(hero.getPosition())){
-                Currency currency = runTrack.getCurrencyAtPosition(hero.getPosition());
+                Collectable collectable = runTrack.getCurrencyAtPosition(hero.getPosition());
 
                 //Currency requires magnet (Magnetic Coin)
-                if(!currency.requiresMagnet() || hero.hasMagnet()){
-                    hero.collect(currency);
-                    score += currency.getValue() * level.getMultiplier();
-                    display.collectedCurrency(currency.toString());
+                if(!collectable.requiresMagnet() || hero.hasMagnet()){
+                    hero.collect(collectable);
+                    score += collectable.getValue() * level.getMultiplier();
+                    display.collectedCurrency(collectable.toString());
                 }
 
             }
@@ -110,20 +109,20 @@ public class GameEngine {
 
             //Increment the total distance traveled
             totalMeters++;
-            hero.incrementPosition();
+            forwardHero();
 
             //Hero has completed one iteration of run track, reset the run track's content (currencies)
             if(hero.getPosition() > runTrack.getPerimeter()){
                 display.reachedDestination(String.valueOf(totalMeters));
-                hero.resetPosition();
+                resetPosition();
             }
 
         }
     }
 
     //Generate a random currency
-    private Currency createRandomCurrency() {
-        Currency[] currencies = Currency.values();
+    private Collectable createRandomCurrency() {
+        Collectable[] currencies = Collectable.values();
         Random rand = new Random();
         int i = rand.nextInt(currencies.length);
         return currencies[i];
@@ -150,8 +149,8 @@ public class GameEngine {
 
 
     //Create an currency map from randomly generated currencies
-    private Map<Integer, Currency> generateRandomCurrencies(int perimeter){
-        Map<Integer,Currency> currencyMap = new HashMap<>();
+    private Map<Integer, Collectable> generateRandomCurrencies(int perimeter){
+        Map<Integer, Collectable> currencyMap = new HashMap<>();
         for(int i=0; i < perimeter; i+= 50){
             currencyMap.put(i, createRandomCurrency());
         }
@@ -179,7 +178,7 @@ public class GameEngine {
 
     //Save player's progress into the game_progress.json file as a json object
     private void saveProgress() {
-        ProgressHandler progressHandler = new ProgressHandler("./game_progress.json");
+        ProgressHandler progressHandler = new ProgressHandler();
         ObjectMapper mapper = new ObjectMapper();
         boolean saved = false;
         JsonNodeFactory f = JsonNodeFactory.instance;
@@ -196,12 +195,7 @@ public class GameEngine {
             e.printStackTrace();
         }
         objectArray.add(valuesNode);
-        try {
-            String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(gameProgress);
-            saved = progressHandler.saveGameProgress(jsonString);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        saved = progressHandler.saveGameProgress(gameProgress);
         System.out.println("Progress saved: " + saved);
 
     }
@@ -213,5 +207,16 @@ public class GameEngine {
         display.endGameReport(report);
     }
 
+
+    //Increment hero's position
+    private void forwardHero(){
+        int currentPosition = hero.getPosition();
+        hero.setPosition(currentPosition + 1);
+    }
+
+    //Reset hero's position
+    private void resetPosition(){
+        hero.setPosition(0);
+    }
 
 }

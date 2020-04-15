@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Hero {
 
-    private Map<Currency,Integer> chest;
+    private Map<Collectable,Integer> chest;
     private boolean magnet;
     private int position;
 
@@ -13,15 +13,21 @@ public class Hero {
         this(new HashMap<>(), false, 0);
     }
 
-    public Hero(Map<Currency, Integer> chest, boolean magnet, int position) {
-        this.chest = chest;
+    public Hero(Map<Collectable, Integer> chest, boolean magnet, int position) {
+        setChest(chest);
         this.magnet = magnet;
         this.position = position;
     }
 
-    public void collect(Currency currency){
-        int oldCount = chest.getOrDefault(currency, 0);
-        chest.put(currency, oldCount + 1);
+    public Hero(Hero hero){
+        setChest(hero.getChest());
+        this.magnet = hero.hasMagnet();
+        setPosition(hero.getPosition());
+    }
+
+    public void collect(Collectable collectable){
+        int oldCount = chest.getOrDefault(collectable, 0);
+        chest.put(collectable, oldCount + 1);
     }
 
     public boolean hasMagnet(){
@@ -34,33 +40,39 @@ public class Hero {
 
     public int totalItems(){
         int total = 0;
-        for(Currency key: chest.keySet()){
+        for(Collectable key: chest.keySet()){
             total += chest.get(key);
         }
         return total;
     }
 
     public int totalDiamonds(){
-        return chest.getOrDefault(Currency.DIAMOND, 0);
-    }
-
-    public void incrementPosition(){
-        position++;
-    }
-
-    public void resetPosition(){
-        position = 0;
+        return chest.getOrDefault(Collectable.DIAMOND, 0);
     }
 
     public int getPosition() {
         return position;
     }
 
-    public Map<Currency, Integer> getChest() {
-        return chest;
+    public Map<Collectable, Integer> getChest() {
+        Map<Collectable, Integer> copyChest = new HashMap<Collectable, Integer>(chest.size());
+        for(Collectable nextCollectable : chest.keySet()){
+            copyChest.put(nextCollectable, chest.get(nextCollectable));
+        }
+        return copyChest;
     }
 
-    public boolean getHasMagnet() {
-        return magnet;
+    private void setChest(Map<Collectable, Integer> chest){
+        if(chest == null){
+            throw new IllegalArgumentException("Given chest object is null therefore cannot be set.");
+        }
+        this.chest = chest;
+    }
+
+    void setPosition(int position){
+        if(position < 0){
+            throw new IllegalArgumentException("Given position argument cannot be a negative value.");
+        }
+        this.position = position;
     }
 }

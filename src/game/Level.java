@@ -9,7 +9,7 @@ public enum Level {
 
     private final int multiplier;
 
-    Level(int val){
+    private Level(int val){
         multiplier = val;
     }
 

@@ -2,6 +2,8 @@ package game;
 
 public class GameReport {
 
+    public GameReport() {}
+
     public String createGameReport(String deathReason, RunTrack runTrack, Hero hero, int totalMeters, int score, Level level){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("----------------\n")

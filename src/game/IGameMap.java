@@ -2,7 +2,7 @@ package game;
 
 public interface IGameMap {
 
-    public Currency getCurrencyAtPosition(int position);
+    public Collectable getCurrencyAtPosition(int position);
 
     public IAvoidable getObstacleAtPosition(int position);
 

@@ -1,7 +1,7 @@
 package game;
 
 
-public enum Currency {
+public enum Collectable {
 
     COIN (100, false),
     MAGNETIC_COIN (200, true),
@@ -10,7 +10,7 @@ public enum Currency {
     private final boolean requiresMagnet;
     private final int value;
 
-    Currency(int value, boolean requiresMagnet){
+    private Collectable(int value, boolean requiresMagnet){
         this.value = value;
         this.requiresMagnet = requiresMagnet;
     }

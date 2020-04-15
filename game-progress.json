@@ -1,0 +1,173 @@
+{
+  "gameProgress" : [ {
+    "hero" : {
+      "chest" : {
+        "DIAMOND" : 14,
+        "COIN" : 14,
+        "MAGNETIC_COIN" : 8
+      },
+      "position" : 2501
+    },
+    "runTrack" : {
+      "perimeter" : 4968,
+      "trackType" : "MOUNTAIN",
+      "currencyMap" : {
+        "0" : "MAGNETIC_COIN",
+        "2050" : "DIAMOND",
+        "4100" : "COIN",
+        "1800" : "MAGNETIC_COIN",
+        "3850" : "MAGNETIC_COIN",
+        "1550" : "MAGNETIC_COIN",
+        "3600" : "DIAMOND",
+        "1300" : "MAGNETIC_COIN",
+        "3350" : "COIN",
+        "1050" : "COIN",
+        "3100" : "MAGNETIC_COIN",
+        "800" : "COIN",
+        "2850" : "COIN",
+        "4900" : "DIAMOND",
+        "550" : "DIAMOND",
+        "2600" : "MAGNETIC_COIN",
+        "4650" : "MAGNETIC_COIN",
+        "300" : "COIN",
+        "2350" : "DIAMOND",
+        "4400" : "COIN",
+        "50" : "MAGNETIC_COIN",
+        "2100" : "DIAMOND",
+        "4150" : "MAGNETIC_COIN",
+        "1850" : "COIN",
+        "3900" : "MAGNETIC_COIN",
+        "1600" : "MAGNETIC_COIN",
+        "3650" : "COIN",
+        "1350" : "MAGNETIC_COIN",
+        "3400" : "DIAMOND",
+        "1100" : "DIAMOND",
+        "3150" : "COIN",
+        "850" : "MAGNETIC_COIN",
+        "2900" : "DIAMOND",
+        "4950" : "MAGNETIC_COIN",
+        "600" : "DIAMOND",
+        "2650" : "MAGNETIC_COIN",
+        "4700" : "DIAMOND",
+        "350" : "DIAMOND",
+        "2400" : "MAGNETIC_COIN",
+        "4450" : "MAGNETIC_COIN",
+        "100" : "COIN",
+        "2150" : "MAGNETIC_COIN",
+        "4200" : "DIAMOND",
+        "1900" : "COIN",
+        "3950" : "COIN",
+        "1650" : "COIN",
+        "3700" : "COIN",
+        "1400" : "MAGNETIC_COIN",
+        "3450" : "DIAMOND",
+        "1150" : "DIAMOND",
+        "3200" : "DIAMOND",
+        "900" : "COIN",
+        "2950" : "COIN",
+        "650" : "DIAMOND",
+        "2700" : "COIN",
+        "4750" : "COIN",
+        "400" : "COIN",
+        "2450" : "COIN",
+        "4500" : "MAGNETIC_COIN",
+        "150" : "MAGNETIC_COIN",
+        "2200" : "MAGNETIC_COIN",
+        "4250" : "MAGNETIC_COIN",
+        "1950" : "COIN",
+        "4000" : "DIAMOND",
+        "1700" : "DIAMOND",
+        "3750" : "DIAMOND",
+        "1450" : "MAGNETIC_COIN",
+        "3500" : "DIAMOND",
+        "1200" : "MAGNETIC_COIN",
+        "3250" : "DIAMOND",
+        "950" : "MAGNETIC_COIN",
+        "3000" : "COIN",
+        "700" : "COIN",
+        "2750" : "MAGNETIC_COIN",
+        "4800" : "MAGNETIC_COIN",
+        "450" : "DIAMOND",
+        "2500" : "COIN",
+        "4550" : "COIN",
+        "200" : "COIN",
+        "2250" : "MAGNETIC_COIN",
+        "4300" : "MAGNETIC_COIN",
+        "2000" : "MAGNETIC_COIN",
+        "4050" : "DIAMOND",
+        "1750" : "MAGNETIC_COIN",
+        "3800" : "MAGNETIC_COIN",
+        "1500" : "DIAMOND",
+        "3550" : "DIAMOND",
+        "1250" : "MAGNETIC_COIN",
+        "3300" : "DIAMOND",
+        "1000" : "MAGNETIC_COIN",
+        "3050" : "COIN",
+        "750" : "DIAMOND",
+        "2800" : "MAGNETIC_COIN",
+        "4850" : "DIAMOND",
+        "500" : "DIAMOND",
+        "2550" : "MAGNETIC_COIN",
+        "4600" : "MAGNETIC_COIN",
+        "250" : "MAGNETIC_COIN",
+        "2300" : "MAGNETIC_COIN",
+        "4350" : "MAGNETIC_COIN"
+      },
+      "obstacleMap" : {
+        "0" : {
+          "necessaryMove" : "SLIDE",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        },
+        "2000" : {
+          "necessaryMove" : "JUMP",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        },
+        "4000" : {
+          "necessaryMove" : "SLIDE",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        },
+        "500" : {
+          "necessaryMove" : "SLIDE",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        },
+        "2500" : {
+          "necessaryMove" : "JUMP",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        },
+        "4500" : {
+          "necessaryMove" : "JUMP",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        },
+        "1000" : {
+          "necessaryMove" : "SLIDE",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        },
+        "3000" : {
+          "necessaryMove" : "JUMP",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        },
+        "1500" : {
+          "necessaryMove" : "JUMP",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        },
+        "3500" : {
+          "necessaryMove" : "JUMP",
+          "avoidPoint" : 2,
+          "avoidChance" : 0.95
+        }
+      }
+    },
+    "totalMeters" : 2501,
+    "score" : 8612,
+    "level" : "EASY"
+  } ]
+}
