@@ -19,4 +19,6 @@ public enum Move {
     public int getPoint() {
         return point;
     }
+
 }
+

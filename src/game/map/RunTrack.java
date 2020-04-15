@@ -7,7 +7,7 @@ import game.Collectable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RunTrack implements IGameMap{
+public class RunTrack implements ICircularMap {
 
     private int perimeter;
     private TrackType trackType;

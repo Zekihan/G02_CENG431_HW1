@@ -2,80 +2,63 @@
   "gameProgress" : [ {
     "hero" : {
       "chest" : {
-        "COIN" : 7,
-        "DIAMOND" : 4
+        "COIN" : 16,
+        "MAGNETIC_COIN" : 8,
+        "DIAMOND" : 10
       },
-      "position" : 751
+      "position" : 1
     },
     "runTrack" : {
-      "perimeter" : 3018,
+      "perimeter" : 2148,
       "trackType" : "MOUNTAIN",
       "currencyMap" : {
-        "0" : "COIN",
+        "0" : "MAGNETIC_COIN",
+        "1600" : "COIN",
+        "450" : "COIN",
         "2050" : "DIAMOND",
-        "900" : "COIN",
-        "2950" : "MAGNETIC_COIN",
-        "1800" : "COIN",
-        "650" : "COIN",
-        "2700" : "MAGNETIC_COIN",
-        "1550" : "MAGNETIC_COIN",
-        "400" : "DIAMOND",
-        "2450" : "MAGNETIC_COIN",
-        "1300" : "MAGNETIC_COIN",
-        "150" : "DIAMOND",
-        "2200" : "MAGNETIC_COIN",
-        "1050" : "DIAMOND",
-        "1950" : "DIAMOND",
-        "800" : "COIN",
-        "2850" : "COIN",
-        "1700" : "MAGNETIC_COIN",
-        "550" : "MAGNETIC_COIN",
-        "2600" : "COIN",
-        "1450" : "MAGNETIC_COIN",
-        "300" : "COIN",
-        "2350" : "COIN",
-        "1200" : "COIN",
-        "50" : "MAGNETIC_COIN",
-        "2100" : "COIN",
-        "950" : "MAGNETIC_COIN",
-        "3000" : "MAGNETIC_COIN",
-        "1850" : "DIAMOND",
-        "700" : "COIN",
-        "2750" : "DIAMOND",
-        "1600" : "DIAMOND",
-        "450" : "DIAMOND",
-        "2500" : "COIN",
-        "1350" : "COIN",
+        "900" : "DIAMOND",
+        "1350" : "DIAMOND",
         "200" : "MAGNETIC_COIN",
-        "2250" : "COIN",
+        "1800" : "MAGNETIC_COIN",
+        "650" : "MAGNETIC_COIN",
         "1100" : "COIN",
-        "2000" : "COIN",
+        "1550" : "DIAMOND",
+        "400" : "MAGNETIC_COIN",
+        "2000" : "MAGNETIC_COIN",
         "850" : "MAGNETIC_COIN",
-        "2900" : "DIAMOND",
-        "1750" : "MAGNETIC_COIN",
+        "1300" : "COIN",
+        "150" : "MAGNETIC_COIN",
+        "1750" : "DIAMOND",
         "600" : "COIN",
-        "2650" : "COIN",
-        "1500" : "COIN",
-        "350" : "DIAMOND",
-        "2400" : "DIAMOND",
-        "1250" : "MAGNETIC_COIN",
+        "1050" : "COIN",
+        "1500" : "MAGNETIC_COIN",
+        "350" : "MAGNETIC_COIN",
+        "1950" : "DIAMOND",
+        "800" : "MAGNETIC_COIN",
+        "1250" : "DIAMOND",
         "100" : "COIN",
-        "2150" : "COIN",
+        "1700" : "DIAMOND",
+        "550" : "COIN",
         "1000" : "COIN",
-        "1900" : "DIAMOND",
-        "750" : "COIN",
-        "2800" : "DIAMOND",
+        "1450" : "COIN",
+        "300" : "MAGNETIC_COIN",
+        "1900" : "MAGNETIC_COIN",
+        "750" : "DIAMOND",
+        "1200" : "COIN",
+        "50" : "COIN",
         "1650" : "MAGNETIC_COIN",
         "500" : "COIN",
-        "2550" : "DIAMOND",
-        "1400" : "COIN",
-        "250" : "MAGNETIC_COIN",
-        "2300" : "DIAMOND",
-        "1150" : "MAGNETIC_COIN"
+        "2100" : "COIN",
+        "950" : "DIAMOND",
+        "1400" : "MAGNETIC_COIN",
+        "250" : "COIN",
+        "1850" : "MAGNETIC_COIN",
+        "700" : "MAGNETIC_COIN",
+        "1150" : "COIN"
       },
       "obstacleMap" : {
         "0" : {
-          "necessaryMove" : "JUMP",
+          "necessaryMove" : "SLIDE",
           "avoidPoint" : 2,
           "avoidChance" : 0.95
         },
@@ -84,22 +67,12 @@
           "avoidPoint" : 2,
           "avoidChance" : 0.95
         },
-        "500" : {
-          "necessaryMove" : "SLIDE",
-          "avoidPoint" : 2,
-          "avoidChance" : 0.95
-        },
-        "2500" : {
-          "necessaryMove" : "SLIDE",
-          "avoidPoint" : 2,
-          "avoidChance" : 0.95
-        },
         "1000" : {
-          "necessaryMove" : "JUMP",
+          "necessaryMove" : "SLIDE",
           "avoidPoint" : 2,
           "avoidChance" : 0.95
         },
-        "3000" : {
+        "500" : {
           "necessaryMove" : "SLIDE",
           "avoidPoint" : 2,
           "avoidChance" : 0.95
@@ -111,8 +84,8 @@
         }
       }
     },
-    "totalMeters" : 750,
-    "score" : 2302,
-    "level" : "EASY"
+    "totalMeters" : 2149,
+    "score" : 14420,
+    "level" : "MODERATE"
   } ]
 }

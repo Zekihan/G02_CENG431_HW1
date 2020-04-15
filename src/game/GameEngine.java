@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import game.map.ICircularMap;
 import io.Display;
 import io.Gamepad;
 import io.IGameMonitor;
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameEngine {
 
-    private RunTrack runTrack;
+    private ICircularMap runTrack;
     private Hero hero;
     private Monster monster;
     private int totalMeters;
@@ -35,7 +36,7 @@ public class GameEngine {
 
     private GameEngine(Hero hero, Monster monster, int totalMeters, int score, Level level, boolean gameOver) {
         int perimeter = RandomEngine.randPerimeterInRange(1000,10000);
-        this.runTrack = new RunTrack(perimeter, RandomEngine.randTrackType(), generateRandomCurrencies(perimeter), generateRandomObstacles(perimeter));
+        this.runTrack = new RunTrack(perimeter, RandomEngine.randTrackType(), generateRandomCollectibles(perimeter), generateRandomObstacles(perimeter));
         this.hero = hero;
         this.monster = monster;
         this.totalMeters = totalMeters;
@@ -91,11 +92,12 @@ public class GameEngine {
                 }
             }
 
-            //Hero sees a currency
+            //Hero sees a collectible
             if(runTrack.checkForCollectible(hero.getPosition())){
                 Collectable collectable = runTrack.getCollectibleAtPosition(hero.getPosition());
 
-                //Currency requires magnet (Magnetic Coin)
+
+                //Hero collects the collectible
                 if(!collectable.requiresMagnet() || hero.hasMagnet()){
                     hero.collect(collectable);
                     score += collectable.getValue() * level.getMultiplier();
@@ -103,7 +105,8 @@ public class GameEngine {
                     waitDisplay(250);
                 }
 
-
+                //Collectible requires a magnet and hero doesn't have a magnet
+                //Do nothing. (Hero cannot collect the collectible)
             }
 
             //Hero gets a magnet whenever his/her score is over 5000
@@ -115,7 +118,7 @@ public class GameEngine {
             totalMeters++;
             forwardHero();
 
-            //Hero has completed one iteration of run track, reset the run track's content (currencies)
+            //Hero has completed one iteration of the circular-map, reset his/her position.
             if(hero.getPosition() > runTrack.getPerimeter()){
                 display.reachedDestination(String.valueOf(totalMeters));
                 resetPosition();
@@ -142,7 +145,6 @@ public class GameEngine {
 
     //Generate a random obstacle
     private IAvoidable createRandomObstacle(){
-        //TODO: Make the list assignment more generic?
         IAvoidable[] obstacles = {new RockObstacle(), new SawObstacle(), new AqueductObstacle(), new FelledTreeObstacle()};
         Random rand = new Random();
         int i = rand.nextInt(obstacles.length);
@@ -150,7 +152,7 @@ public class GameEngine {
     }
 
 
-    //Create an obstacle game.map from randomly generated obstacles
+    //Create an obstacle map from randomly generated obstacles
     private Map<Integer, IAvoidable> generateRandomObstacles(int perimeter){
         Map<Integer,IAvoidable> obstacleMap = new HashMap<>();
         for(int i=0; i < perimeter; i+=500){
@@ -160,8 +162,8 @@ public class GameEngine {
     }
 
 
-    //Create an currency game.map from randomly generated currencies
-    private Map<Integer, Collectable> generateRandomCurrencies(int perimeter){
+    //Create a collectible  from randomly generated currencies
+    private Map<Integer, Collectable> generateRandomCollectibles(int perimeter){
         Map<Integer, Collectable> currencyMap = new HashMap<>();
         for(int i=0; i < perimeter; i+= 50){
             currencyMap.put(i, createRandomCurrency());
