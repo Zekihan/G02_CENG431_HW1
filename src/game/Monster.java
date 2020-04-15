@@ -1,4 +1,4 @@
-package game.avoidables;
+package game;
 
 public class Monster {
 
