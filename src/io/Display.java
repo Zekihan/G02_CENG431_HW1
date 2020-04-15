@@ -7,7 +7,7 @@ import java.awt.*;
 public class Display implements IGameMonitor{
 
     JTextField textField;
-    JTextArea textField2;
+    JTextArea textArea;
     JFrame frame;
 
     public Display(Gamepad action) {
@@ -26,15 +26,16 @@ public class Display implements IGameMonitor{
         this.textField = new JTextField();
         textField.setEditable(false);
 
-        this.textField2 = new JTextArea();
-        textField2.setFocusable(false);
-        textField2.setLineWrap(true);
-        DefaultCaret caret = (DefaultCaret)textField2.getCaret();
+        this.textArea = new JTextArea();
+        textArea.setFont(textArea.getFont().deriveFont(16f));
+        textArea.setFocusable(false);
+        textArea.setLineWrap(true);
+        DefaultCaret caret = (DefaultCaret) textArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         action.setTextField(textField);
         textField.addKeyListener(action);
-        JScrollPane scrollPane = new JScrollPane(textField2);
+        JScrollPane scrollPane = new JScrollPane(textArea);
 
         contentPane.add(textField, BorderLayout.PAGE_END);
         contentPane.add(scrollPane, BorderLayout.CENTER);
@@ -46,8 +47,8 @@ public class Display implements IGameMonitor{
     }
 
     private void setText(String title, String display) {
-        textField2.append(title);
-        textField2.append(display+"\n");
+        textArea.append(title);
+        textArea.append(display+"\n");
     }
 
     public String getKeyEvent() {
