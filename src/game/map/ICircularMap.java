@@ -3,6 +3,8 @@ package game.map;
 import game.avoidables.IAvoidable;
 import game.Collectable;
 
+import java.util.Map;
+
 public interface ICircularMap {
 
     /* Returns the collectible at the given position. */
@@ -22,6 +24,8 @@ public interface ICircularMap {
 
     /* Get the track type of the map. */
     public TrackType getTrackType();
+
+    public Map<Integer, IAvoidable> getObstacleMap();
 
 }
 

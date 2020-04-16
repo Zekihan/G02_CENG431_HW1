@@ -124,6 +124,11 @@ public class GameEngine {
 
             //Hero has completed one iteration of the circular-map, reset his/her position.
             if(hero.getPosition() > runTrack.getPerimeter()){
+
+                // Reset Collectables
+                runTrack = new RunTrack(runTrack.getPerimeter(), runTrack.getTrackType()
+                        , generateRandomCollectibles(runTrack.getPerimeter()), runTrack.getObstacleMap());
+
                 display.reachedDestination(String.valueOf(totalMeters));
                 resetPosition();
             }
