@@ -30,6 +30,8 @@ public class GameEngine {
 
     public GameEngine() {
         this(new Hero(), new Monster(), 0, 0, RandomEngine.randLevel(), false);
+
+        loadProgress();
     }
 
     private GameEngine(Hero hero, Monster monster, int totalMeters, int score, Level level, boolean gameOver) {
@@ -235,7 +237,7 @@ public class GameEngine {
             e.printStackTrace();
         }
         System.out.println("Progress saved: " + saved);
-        loadProgress();
+
     }
 
     //Loads player's progress into the game_progress.json file as a json object
@@ -251,14 +253,14 @@ public class GameEngine {
 
             ObjectNode gameProgress = (ObjectNode) mapper.readTree(progressAsString).get("gameProgress");
             //System.out.println(mapper.convertValue(gameProgress.get("gameProgress").get("runTrack"), obstacleMap.getClass()));
-            Hero hero = mapper.convertValue(gameProgress.get("hero"),Hero.class);
-            ICircularMap runTrack = new RunTrack(mapper.convertValue(gameProgress.get("runTrack").get("perimeter"),int.class),
+            hero = mapper.convertValue(gameProgress.get("hero"),Hero.class);
+            runTrack = new RunTrack(mapper.convertValue(gameProgress.get("runTrack").get("perimeter"),int.class),
                     mapper.convertValue(gameProgress.get("runTrack").get("trackType"), TrackType.class),
                     mapper.convertValue(gameProgress.get("runTrack").get("currencyMap"),Map.class),
                     mapper.convertValue(gameProgress.get("runTrack").get("obstacleMap"),Map.class));
-            int totalMeters = mapper.convertValue(gameProgress.get("totalMeters"),int.class);
-            int score = mapper.convertValue(gameProgress.get("score"), int.class);
-            Level level = mapper.convertValue(gameProgress.get("level"), Level.class);
+            totalMeters = mapper.convertValue(gameProgress.get("totalMeters"),int.class);
+            score = mapper.convertValue(gameProgress.get("score"), int.class);
+            level = mapper.convertValue(gameProgress.get("level"), Level.class);
             load = true;
         } catch (IOException e) {
             e.printStackTrace();
