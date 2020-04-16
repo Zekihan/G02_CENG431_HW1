@@ -10,3 +10,4 @@ G02_CENG431_HW1.iml
 out/production/
 
 game-progress.json
+*.json
