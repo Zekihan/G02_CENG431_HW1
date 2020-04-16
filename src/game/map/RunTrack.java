@@ -24,22 +24,34 @@ public class RunTrack implements ICircularMap {
 
 
     public Collectable getCollectibleAtPosition(int position){
-        checkValidityOfPosition(position);
+        if(isPositionNegative(position)){
+            throw new IllegalArgumentException("Position argument cannot be less than 0.");
+        }
+
         return currencyMap.get(position);
     }
 
     public IAvoidable getObstacleAtPosition(int position){
-        checkValidityOfPosition(position);
+        if(isPositionNegative(position)){
+            throw new IllegalArgumentException("Position argument cannot be less than 0.");
+        }
+
         return obstacleMap.get(position);
     }
 
     public boolean checkForCollectible(int position){
-        checkValidityOfPosition(position);
+        if(isPositionNegative(position)){
+            throw new IllegalArgumentException("Position argument cannot be less than 0.");
+        }
+
         return currencyMap.containsKey(position);
     }
 
     public boolean checkForObstacle(int position){
-        checkValidityOfPosition(position);
+        if(isPositionNegative(position)){
+            throw new IllegalArgumentException("Position argument cannot be less than 0.");
+        }
+
         return obstacleMap.containsKey(position);
     }
 
@@ -67,7 +79,7 @@ public class RunTrack implements ICircularMap {
     }
 
     //Necessary for saving progress to json
-    public Map<Integer, Collectable> getCurrencyMap() {
+    public Map<Integer, Collectable> getCollectibleMap() {
         Map<Integer, Collectable> copyMap = new HashMap<>(currencyMap.size());
         for(Integer nextPosition: currencyMap.keySet()){
             copyMap.put(nextPosition, currencyMap.get(nextPosition));
@@ -83,18 +95,24 @@ public class RunTrack implements ICircularMap {
         return copyMap;
     }
 
-    public void setCurrencyMap(Map<Integer, Collectable> currencyMap) {
+    public void setCollectibleMap(Map<Integer, Collectable> currencyMap) {
         this.currencyMap = currencyMap;
     }
 
     public void collectCollectible(int position) {
+        if(isPositionNegative(position)){
+            throw new IllegalArgumentException("Position of the collectible cannot be null!");
+        }
         currencyMap.remove(position);
     }
 
-    //Checks whether the given position argument is negative, if so throws an IllegalArgumentException.
-    private void checkValidityOfPosition(int position){
+    //Checks whether the given position argument is negative, if so return true, false if otherwise
+    private boolean isPositionNegative(int position){
+        boolean negative = false;
         if(position < 0){
-            throw new IllegalArgumentException("Given position argument cannot be a negative value.");
+           negative = true;
         }
+        return negative;
     }
+
 }

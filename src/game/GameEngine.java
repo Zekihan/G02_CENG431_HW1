@@ -1,11 +1,6 @@
 package game;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import game.avoidables.*;
@@ -17,7 +12,6 @@ import game.utilities.RandomEngine;
 import io.*;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -37,7 +31,6 @@ public class GameEngine {
 
     public GameEngine() {
         this(new Hero(), new Monster(), 0, 0, RandomEngine.randLevel(), false);
-
         loadProgress();
     }
 
@@ -129,8 +122,8 @@ public class GameEngine {
             //Hero has completed one iteration of the circular-map, reset his/her position.
             if(hero.getPosition() > runTrack.getPerimeter()){
 
-                // Reset Collectables
-                runTrack.setCurrencyMap(refreshRandomCollectibles(runTrack.getPerimeter(),runTrack.getCurrencyMap()));
+                // Reset Collectibles
+                runTrack.setCollectibleMap(refreshRandomCollectibles(runTrack.getPerimeter(),runTrack.getCollectibleMap()));
 
                 display.reachedDestination(String.valueOf(totalMeters));
                 resetPosition();
@@ -149,7 +142,7 @@ public class GameEngine {
     }
 
     //Generate a random currency
-    private Collectable createRandomCurrency() {
+    private Collectable createRandomCollectible() {
         Collectable[] currencies = Collectable.values();
         Random rand = new Random();
         int i = rand.nextInt(currencies.length);
@@ -178,7 +171,7 @@ public class GameEngine {
     private Map<Integer, Collectable> refreshRandomCollectibles(int perimeter, Map<Integer, Collectable> currencyMap){
         for(int i=0; i < perimeter; i+=50){
             if(!currencyMap.containsKey(i)){
-                currencyMap.put(i, createRandomCurrency());
+                currencyMap.put(i, createRandomCollectible());
             }
         }
         return currencyMap;
@@ -189,7 +182,7 @@ public class GameEngine {
     private Map<Integer, Collectable> generateRandomCollectibles(int perimeter){
         Map<Integer, Collectable> currencyMap = new HashMap<>();
         for(int i=0; i < perimeter; i+= 50){
-            currencyMap.put(i, createRandomCurrency());
+            currencyMap.put(i, createRandomCollectible());
         }
         return currencyMap;
     }
@@ -217,7 +210,7 @@ public class GameEngine {
     //Save player's progress into the game_progress.json file as a json object
     @SuppressWarnings("deprecation")
     private void saveProgress() {
-        GameSave saver = new FileIO();
+        GameStorage saver = new FileIO();
         boolean saved = false;
 
         ObjectMapper mapper = new ObjectMapper();
@@ -239,7 +232,7 @@ public class GameEngine {
                     );
             runTrackNode.put("obstacleMap", mapper.valueToTree(obstacleMapJson));
 
-            runTrackNode.put("currencyMap", mapper.valueToTree(runTrack.getCurrencyMap()));
+            runTrackNode.put("currencyMap", mapper.valueToTree(runTrack.getCollectibleMap()));
             gameProgress.put("runTrack",runTrackNode);
 
             gameProgress.put("totalMeters", mapper.valueToTree(totalMeters));
@@ -272,13 +265,12 @@ public class GameEngine {
         }
     }
 
-    //Loads player's progress into the game_progress.json file as a json object
+    //Loads player's progress from the game-progress.json file as a json object
     @SuppressWarnings("unchecked")
     private void loadProgress() {
-        GameSave loader = new FileIO();
+        GameStorage loader = new FileIO();
         boolean load = false;
         ObjectMapper mapper = new ObjectMapper();
-
         String progressAsString = loader.read("game-progress.json");
 
         try {

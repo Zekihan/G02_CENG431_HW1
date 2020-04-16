@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class FileIO implements GameSave{
+public class FileIO implements GameStorage{
 
     //Write the given string to the file
     public boolean save(String filePath, String progressAsString){
