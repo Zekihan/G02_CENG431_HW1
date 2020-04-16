@@ -6,18 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class FileIO {
-
-    private String fileName;
-
-    public FileIO(String fileName) { setFileName(fileName); }
+public class FileIO implements GameSave{
 
     //Write the given string to the file
-    public boolean saveToFile(String progressAsString){
+    public boolean save(String filePath, String progressAsString){
         boolean saved = false;
 
         try {
-            FileWriter writer = new FileWriter(fileName);
+            FileWriter writer = new FileWriter(filePath);
             writer.write(progressAsString);
             writer.close();
             saved = true;
@@ -29,11 +25,11 @@ public class FileIO {
     }
 
     //Read string from the file
-    public String readFromFile(){
+    public String read(String filePath){
         StringBuilder readProgress = new StringBuilder();
 
         try {
-            File fileToRead = new File(fileName);
+            File fileToRead = new File(filePath);
             Scanner myReader = new Scanner(fileToRead);
             while (myReader.hasNextLine()) {
                 readProgress.append(myReader.nextLine());
@@ -44,13 +40,4 @@ public class FileIO {
         }
         return readProgress.toString();
     }
-
-
-    private void setFileName(String fileName){
-        this.fileName = fileName;
-    }
-
-    public String getFileName(){ return fileName; }
-
-
 }

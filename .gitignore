@@ -11,3 +11,4 @@ out/production/
 
 game-progress.json
 *.json
+.idea/dictionaries/*.xml

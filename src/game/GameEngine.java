@@ -1,25 +1,21 @@
 package game;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import exceptions.GameEngineNotInitializedException;
-import game.map.ICircularMap;
-import io.Display;
-import io.Gamepad;
-import io.IGameMonitor;
-import game.map.RunTrack;
 import game.avoidables.*;
-import game.utilities.*;
+import game.map.ICircularMap;
+import game.map.RunTrack;
+import game.map.TrackType;
+import game.utilities.GameReport;
+import game.utilities.RandomEngine;
+import io.*;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-import static java.lang.System.exit;
 
 public class GameEngine {
 
@@ -31,8 +27,6 @@ public class GameEngine {
     private Level level;
     private boolean gameOver;
     private IGameMonitor display;
-    private boolean initialized;
-
 
     public GameEngine() {
         this(new Hero(), new Monster(), 0, 0, RandomEngine.randLevel(), false);
@@ -137,9 +131,9 @@ public class GameEngine {
     }
 
 
-    private void waitDisplay(long miliseconds){
+    private void waitDisplay(long milliseconds){
         try {
-            TimeUnit.MILLISECONDS.sleep(miliseconds);
+            TimeUnit.MILLISECONDS.sleep(milliseconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -212,26 +206,64 @@ public class GameEngine {
 
 
     //Save player's progress into the game_progress.json file as a json object
+    @SuppressWarnings("deprecation")
     private void saveProgress() {
-        ProgressHandler progressHandler = new ProgressHandler();
+        GameSave saver = new FileIO();
+        boolean saved = false;
         ObjectMapper mapper = new ObjectMapper();
         JsonNodeFactory f = JsonNodeFactory.instance;
         ObjectNode gameProgress = f.objectNode();
-        ArrayNode objectArray = gameProgress.putArray("gameProgress");
-        ObjectNode valuesNode = f.objectNode();
         try {
-            valuesNode.put("hero", mapper.readTree(mapper.writeValueAsString(hero)));
-            valuesNode.put("runTrack", mapper.readTree(mapper.writeValueAsString(runTrack)));
-            valuesNode.put("totalMeters", mapper.readTree(mapper.writeValueAsString(totalMeters)));
-            valuesNode.put("score", mapper.readTree(mapper.writeValueAsString(score)));
-            valuesNode.put("level", mapper.readTree(mapper.writeValueAsString(level)));
+            gameProgress.put("hero", mapper.readTree(mapper.writeValueAsString(hero)));
+
+            ObjectNode runTrackNode = f.objectNode();
+            runTrackNode.put("perimeter", mapper.readTree(mapper.writeValueAsString(runTrack.getPerimeter())));
+            runTrackNode.put("trackType", mapper.readTree(mapper.writeValueAsString(runTrack.getTrackType())));
+            runTrackNode.put("obstacleMap", mapper.readTree(mapper.writeValueAsString(runTrack.getObstacleMap())));
+            runTrackNode.put("currencyMap", mapper.readTree(mapper.writeValueAsString(runTrack.getCurrencyMap())));
+            gameProgress.put("runTrack",runTrackNode);
+
+            gameProgress.put("totalMeters", mapper.readTree(mapper.writeValueAsString(totalMeters)));
+            gameProgress.put("score", mapper.readTree(mapper.writeValueAsString(score)));
+            gameProgress.put("level", mapper.readTree(mapper.writeValueAsString(level)));
+
+            ObjectNode json = f.objectNode();
+            json.put("gameProgress",gameProgress);
+            String progressAsString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+            saved = saver.save("game-progress.json",progressAsString);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        objectArray.add(valuesNode);
-        boolean saved = progressHandler.saveGameProgress(gameProgress);
         System.out.println("Progress saved: " + saved);
+        loadProgress();
+    }
 
+    //Loads player's progress into the game_progress.json file as a json object
+    @SuppressWarnings("unchecked")
+    private void loadProgress() {
+        GameSave loader = new FileIO();
+        boolean load = false;
+        ObjectMapper mapper = new ObjectMapper();
+
+        String progressAsString = loader.read("game-progress.json");
+
+        try {
+
+            ObjectNode gameProgress = (ObjectNode) mapper.readTree(progressAsString).get("gameProgress");
+            //System.out.println(mapper.convertValue(gameProgress.get("gameProgress").get("runTrack"), obstacleMap.getClass()));
+            Hero hero = mapper.convertValue(gameProgress.get("hero"),Hero.class);
+            ICircularMap runTrack = new RunTrack(mapper.convertValue(gameProgress.get("runTrack").get("perimeter"),int.class),
+                    mapper.convertValue(gameProgress.get("runTrack").get("trackType"), TrackType.class),
+                    mapper.convertValue(gameProgress.get("runTrack").get("currencyMap"),Map.class),
+                    mapper.convertValue(gameProgress.get("runTrack").get("obstacleMap"),Map.class));
+            int totalMeters = mapper.convertValue(gameProgress.get("totalMeters"),int.class);
+            int score = mapper.convertValue(gameProgress.get("score"), int.class);
+            Level level = mapper.convertValue(gameProgress.get("level"), Level.class);
+            load = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Progress loaded: " + load);
     }
 
     //End of the game, player's score, cause of death, etc. is displayed
