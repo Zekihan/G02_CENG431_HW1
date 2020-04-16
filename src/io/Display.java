@@ -19,7 +19,7 @@ public class Display implements IGameMonitor{
         frame.setTitle("Runner Hero");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(true);
-        frame.setPreferredSize(new Dimension(560,250));
+        frame.setPreferredSize(new Dimension(500,320));
 
         Container contentPane = frame.getContentPane();
 
@@ -78,9 +78,9 @@ public class Display implements IGameMonitor{
     }
 
     public void initialGameProperties(String themeStr, String difficultyStr){
-        String msg ="\t\t*********************\n" +
-                    "\t\t  RUNNER HERO  \n" +
-                    "\t\t*********************\n" +
+        String msg ="\t*********************\n" +
+                    "\t  RUNNER HERO  \n" +
+                    "\t*********************\n" +
                     " -> Theme: " + themeStr + "\n" +
                     " -> Difficulty: " + difficultyStr + "\n";
         System.out.println(msg);

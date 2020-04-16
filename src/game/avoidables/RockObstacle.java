@@ -11,6 +11,6 @@ public class RockObstacle extends JumpableObstacle{
 
     @Override
     public String stumbleEffect() {
-        return "Hero has failed to jump over a rock, hit his head and died brutally.";
+        return "Hero has failed to jump over a rock, hit his head.";
     }
 }
