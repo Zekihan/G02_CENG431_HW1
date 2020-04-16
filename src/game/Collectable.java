@@ -23,5 +23,11 @@ public enum Collectable {
         return value;
     }
 
-    public String toString() { return "a " + this.name() + " (" + this.getValue() + "pts)"; }
+    public String toString() {
+
+        String name = this.name();
+        name = name.toLowerCase();
+        name = name.replace('_', ' ');
+
+        return "a " + name + " (" + this.getValue() + "pts)"; }
 }

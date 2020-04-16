@@ -6,6 +6,6 @@ out/*
 .idea/uiDesigner.xml
 .idea/vcs.xml
 G02_CENG431_HW1.iml
-game-progress.json
+/game-progress.json
 out/production/
 
