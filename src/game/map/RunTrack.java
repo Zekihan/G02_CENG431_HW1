@@ -83,6 +83,14 @@ public class RunTrack implements ICircularMap {
         return copyMap;
     }
 
+    public void setCurrencyMap(Map<Integer, Collectable> currencyMap) {
+        this.currencyMap = currencyMap;
+    }
+
+    public void collectCollectible(int position) {
+        currencyMap.remove(position);
+    }
+
     //Checks whether the given position argument is negative, if so throws an IllegalArgumentException.
     private void checkValidityOfPosition(int position){
         if(position < 0){

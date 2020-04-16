@@ -39,7 +39,7 @@ public class GameEngine {
     }
 
     private GameEngine(Hero hero, Monster monster, int totalMeters, int score, Level level, boolean gameOver) {
-        int perimeter = RandomEngine.randPerimeterInRange(1000,10000);
+        int perimeter = RandomEngine.randPerimeterInRange(1000,1000);
         this.runTrack = new RunTrack(perimeter, RandomEngine.randTrackType(), generateRandomCollectibles(perimeter), generateRandomObstacles(perimeter));
         this.hero = hero;
         this.monster = monster;
@@ -104,6 +104,7 @@ public class GameEngine {
                 //Hero collects the collectible
                 if(!collectable.requiresMagnet() || hero.hasMagnet()){
                     hero.collect(collectable);
+                    runTrack.collectCollectible(hero.getPosition());
                     score += collectable.getValue() * level.getMultiplier();
                     display.collectedItem(collectable.toString());
                     waitDisplay(250);
@@ -126,8 +127,7 @@ public class GameEngine {
             if(hero.getPosition() > runTrack.getPerimeter()){
 
                 // Reset Collectables
-                runTrack = new RunTrack(runTrack.getPerimeter(), runTrack.getTrackType()
-                        , generateRandomCollectibles(runTrack.getPerimeter()), runTrack.getObstacleMap());
+                runTrack.setCurrencyMap(refreshRandomCollectibles(runTrack.getPerimeter(),runTrack.getCurrencyMap()));
 
                 display.reachedDestination(String.valueOf(totalMeters));
                 resetPosition();
@@ -169,6 +169,16 @@ public class GameEngine {
             obstacleMap.put(i, createRandomObstacle());
         }
         return obstacleMap;
+    }
+
+    //Create a collectible map from randomly generated obstacles and collectible map
+    private Map<Integer, Collectable> refreshRandomCollectibles(int perimeter, Map<Integer, Collectable> currencyMap){
+        for(int i=0; i < perimeter; i+=50){
+            if(!currencyMap.containsKey(i)){
+                currencyMap.put(i, createRandomCurrency());
+            }
+        }
+        return currencyMap;
     }
 
 

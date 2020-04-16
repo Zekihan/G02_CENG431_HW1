@@ -25,7 +25,17 @@ public interface ICircularMap {
     /* Get the track type of the map. */
     public TrackType getTrackType();
 
+    /* Get the obstacle map. */
     public Map<Integer, IAvoidable> getObstacleMap();
 
-}
+    /* Removes collectible at given position. */
+    public void collectCollectible(int position);
+
+    /* Get the collectible map. */
+    public Map<Integer, Collectable> getCurrencyMap();
+
+    /* Set the collectible map */
+    public void setCurrencyMap(Map<Integer, Collectable> currencyMap);
+
+    }
 
