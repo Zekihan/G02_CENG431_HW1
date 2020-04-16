@@ -39,7 +39,7 @@ public class GameEngine {
     }
 
     private GameEngine(Hero hero, Monster monster, int totalMeters, int score, Level level, boolean gameOver) {
-        int perimeter = RandomEngine.randPerimeterInRange(1000,1000);
+        int perimeter = RandomEngine.randPerimeterInRange(1000,10000);
         this.runTrack = new RunTrack(perimeter, RandomEngine.randTrackType(), generateRandomCollectibles(perimeter), generateRandomObstacles(perimeter));
         this.hero = hero;
         this.monster = monster;
