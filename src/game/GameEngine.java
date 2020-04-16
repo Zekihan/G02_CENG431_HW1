@@ -1,6 +1,11 @@
 package game;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import game.avoidables.*;
@@ -12,10 +17,12 @@ import game.utilities.RandomEngine;
 import io.*;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class GameEngine {
 
@@ -212,22 +219,32 @@ public class GameEngine {
     private void saveProgress() {
         GameSave saver = new FileIO();
         boolean saved = false;
+
         ObjectMapper mapper = new ObjectMapper();
+
         JsonNodeFactory f = JsonNodeFactory.instance;
         ObjectNode gameProgress = f.objectNode();
         try {
             gameProgress.put("hero", mapper.readTree(mapper.writeValueAsString(hero)));
 
             ObjectNode runTrackNode = f.objectNode();
-            runTrackNode.put("perimeter", mapper.readTree(mapper.writeValueAsString(runTrack.getPerimeter())));
-            runTrackNode.put("trackType", mapper.readTree(mapper.writeValueAsString(runTrack.getTrackType())));
-            runTrackNode.put("obstacleMap", mapper.readTree(mapper.writeValueAsString(runTrack.getObstacleMap())));
-            runTrackNode.put("currencyMap", mapper.readTree(mapper.writeValueAsString(runTrack.getCurrencyMap())));
+            runTrackNode.put("perimeter", mapper.valueToTree(runTrack.getPerimeter()));
+            runTrackNode.put("trackType", mapper.valueToTree(runTrack.getTrackType()));
+
+            Map<Integer, IAvoidable> obstacleMap = runTrack.getObstacleMap();
+            Map<Integer, String> obstacleMapJson =
+                    obstacleMap.entrySet().stream().collect(Collectors.toMap(
+                            entry -> entry.getKey(),
+                            entry -> entry.getValue().getClass().getSimpleName())
+                    );
+            runTrackNode.put("obstacleMap", mapper.valueToTree(obstacleMapJson));
+
+            runTrackNode.put("currencyMap", mapper.valueToTree(runTrack.getCurrencyMap()));
             gameProgress.put("runTrack",runTrackNode);
 
-            gameProgress.put("totalMeters", mapper.readTree(mapper.writeValueAsString(totalMeters)));
-            gameProgress.put("score", mapper.readTree(mapper.writeValueAsString(score)));
-            gameProgress.put("level", mapper.readTree(mapper.writeValueAsString(level)));
+            gameProgress.put("totalMeters", mapper.valueToTree(totalMeters));
+            gameProgress.put("score", mapper.valueToTree(score));
+            gameProgress.put("level", mapper.valueToTree(level));
 
             ObjectNode json = f.objectNode();
             json.put("gameProgress",gameProgress);
@@ -240,6 +257,21 @@ public class GameEngine {
 
     }
 
+    private IAvoidable test(String entry){
+        switch (entry) {
+            case "FelledTreeObstacle":
+                return new FelledTreeObstacle();
+            case "RockObstacle":
+                return new RockObstacle();
+            case "SawObstacle":
+                return new SawObstacle();
+            case "AqueductObstacle":
+                return new AqueductObstacle();
+            default:
+                return null;
+        }
+    }
+
     //Loads player's progress into the game_progress.json file as a json object
     @SuppressWarnings("unchecked")
     private void loadProgress() {
@@ -250,14 +282,27 @@ public class GameEngine {
         String progressAsString = loader.read("game-progress.json");
 
         try {
-
             ObjectNode gameProgress = (ObjectNode) mapper.readTree(progressAsString).get("gameProgress");
-            //System.out.println(mapper.convertValue(gameProgress.get("gameProgress").get("runTrack"), obstacleMap.getClass()));
             hero = mapper.convertValue(gameProgress.get("hero"),Hero.class);
+
+            Map<String, String> currencyMapJson = mapper.convertValue(gameProgress.get("runTrack").get("currencyMap"),Map.class);
+            Map<Integer, Collectable> currencyMap =
+                    currencyMapJson.entrySet().stream().collect(Collectors.toMap(
+                            entry -> Integer.parseInt(entry.getKey()),
+                            entry -> Collectable.valueOf(entry.getValue()))
+                    );
+
+
+            Map<String, String> obstacleMapJson = mapper.convertValue(gameProgress.get("runTrack").get("obstacleMap"),Map.class);;
+            Map<Integer, IAvoidable> obstacleMap =
+                    obstacleMapJson.entrySet().stream().collect(Collectors.toMap(
+                            entry -> Integer.parseInt(entry.getKey()),
+                            entry -> test(entry.getValue()))
+                    );
+
             runTrack = new RunTrack(mapper.convertValue(gameProgress.get("runTrack").get("perimeter"),int.class),
                     mapper.convertValue(gameProgress.get("runTrack").get("trackType"), TrackType.class),
-                    mapper.convertValue(gameProgress.get("runTrack").get("currencyMap"),Map.class),
-                    mapper.convertValue(gameProgress.get("runTrack").get("obstacleMap"),Map.class));
+                    currencyMap,obstacleMap);
             totalMeters = mapper.convertValue(gameProgress.get("totalMeters"),int.class);
             score = mapper.convertValue(gameProgress.get("score"), int.class);
             level = mapper.convertValue(gameProgress.get("level"), Level.class);
