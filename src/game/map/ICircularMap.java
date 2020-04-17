@@ -12,14 +12,14 @@ public interface ICircularMap {
     * @return the collectible at the given position.
     * @throws IllegalArgumentException  if the given position is less than 0.
     */
-    public Collectable getCollectibleAtPosition(int position);
+    public Collectable getCollectible(int position);
 
     /* Returns the avoidable (obstacle) at the given position.
      * @param position   position of the IAvoidable to be returned
      * @return the IAvoidable at the given position.
      * @throws IllegalArgumentException  if the given position is less than 0.
      */
-    public IAvoidable getObstacleAtPosition(int position);
+    public IAvoidable getObstacle(int position);
 
     /* Returns true if a collectible is present at the given position, false if not.
      * @param position   position to be checked if there's any collectible.
@@ -54,7 +54,7 @@ public interface ICircularMap {
     *  param position   position of the Collectible to be collected by the hero.
     *  @throws IllegalArgumentException if the given position argument is a negative value.
     */
-    public void collectCollectible(int position);
+    public void removeCollectable(int position);
 
     /* Get the collectible map.
     *  @return a copy of the collectible map.

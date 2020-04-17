@@ -23,7 +23,7 @@ public class RunTrack implements ICircularMap {
     }
 
 
-    public Collectable getCollectibleAtPosition(int position){
+    public Collectable getCollectible(int position){
         if(isPositionNegative(position)){
             throw new IllegalArgumentException("Position argument cannot be less than 0.");
         }
@@ -31,7 +31,7 @@ public class RunTrack implements ICircularMap {
         return currencyMap.get(position);
     }
 
-    public IAvoidable getObstacleAtPosition(int position){
+    public IAvoidable getObstacle(int position){
         if(isPositionNegative(position)){
             throw new IllegalArgumentException("Position argument cannot be less than 0.");
         }
@@ -99,7 +99,7 @@ public class RunTrack implements ICircularMap {
         this.currencyMap = currencyMap;
     }
 
-    public void collectCollectible(int position) {
+    public void removeCollectable(int position) {
         if(isPositionNegative(position)){
             throw new IllegalArgumentException("Position of the collectible cannot be null!");
         }

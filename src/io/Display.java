@@ -84,9 +84,9 @@ public class Display implements IGameMonitor{
             throw new IllegalArgumentException("Destination argument cannot be null.");
         }
 
-        String textScreen = "Hero has finished a lap, reached to " + reachedDestinationStr + " meters!!";
-        System.out.println(textScreen);
-        setText(" -> ",textScreen);
+        String msg = "Hero has finished a lap, reached to " + reachedDestinationStr + " meters!";
+        System.out.println(msg);
+        setText(" -> ", msg);
     }
 
     public void gameProperties(String themeStr, String difficultyStr){
@@ -104,7 +104,7 @@ public class Display implements IGameMonitor{
     }
 
     public void encounteredMonster(){
-        String msg = "Hero encountered a bloody monster !";
+        String msg = "Hero encountered a bloody monster!";
         System.out.println(msg);
         setText(" -> ", msg);
     }

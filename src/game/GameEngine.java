@@ -76,7 +76,7 @@ public class GameEngine {
             if(runTrack.checkForObstacle(hero.getPosition())){
                 //Wait function for pretty print the events
 
-                IAvoidable obstacleEncountered = runTrack.getObstacleAtPosition(hero.getPosition());
+                IAvoidable obstacleEncountered = runTrack.getObstacle(hero.getPosition());
 
                 //Hero stumbles upon the obstacle
                 if(checkStumbleCondition(obstacleEncountered) && totalMeters!=0){
@@ -93,12 +93,12 @@ public class GameEngine {
             }
             //Hero sees a collectible
             if(runTrack.checkForCollectible(hero.getPosition())){
-                Collectable collectable = runTrack.getCollectibleAtPosition(hero.getPosition());
+                Collectable collectable = runTrack.getCollectible(hero.getPosition());
 
                 //Hero collects the collectible
                 if(!collectable.requiresMagnet() || hero.hasMagnet()){
                     hero.collect(collectable);
-                    runTrack.collectCollectible(hero.getPosition());
+                    runTrack.removeCollectable(hero.getPosition());
                     score += collectable.getValue() * level.getMultiplier();
                     display.collectedItem(collectable.toString());
                     waitDisplay(250);
