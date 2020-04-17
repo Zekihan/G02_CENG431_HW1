@@ -89,7 +89,7 @@ public class Display implements IGameMonitor{
         setText(" -> ",textScreen);
     }
 
-    public void initialGameProperties(String themeStr, String difficultyStr){
+    public void gameProperties(String themeStr, String difficultyStr){
         if(isArgumentNull(themeStr) || isArgumentNull(difficultyStr)){
             throw new IllegalArgumentException("Theme/Difficulty arguments cannot be null.");
         }
@@ -98,13 +98,19 @@ public class Display implements IGameMonitor{
                     "\t  RUNNER HERO  \n" +
                     "\t*********************\n" +
                     " -> Theme: " + themeStr + "\n" +
-                    " -> Difficulty: " + difficultyStr + "\n";
+                    " -> Difficulty: " + difficultyStr;
         System.out.println(msg);
         setText("", msg);
     }
 
     public void encounteredMonster(){
         String msg = "Hero encountered a bloody monster !";
+        System.out.println(msg);
+        setText(" -> ", msg);
+    }
+
+    public void loadedGame(){
+        String msg = "Loaded game from the saved progress\n";
         System.out.println(msg);
         setText(" -> ", msg);
     }
@@ -123,4 +129,5 @@ public class Display implements IGameMonitor{
         textArea.append(title);
         textArea.append(display+"\n");
     }
+
 }

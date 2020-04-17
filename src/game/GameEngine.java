@@ -30,25 +30,32 @@ public class GameEngine {
     private IGameMonitor display;
 
     public GameEngine() {
-        this(new Hero(), new Monster(), 0, 0, RandomEngine.randLevel(), false);
-        loadProgress();
+        this.display = new Display(new Gamepad());
     }
 
-    private GameEngine(Hero hero, Monster monster, int totalMeters, int score, Level level, boolean gameOver) {
+    private void init(){
         int perimeter = RandomEngine.randPerimeterInRange(1000,10000);
-        this.runTrack = new RunTrack(perimeter, RandomEngine.randTrackType(), generateRandomCollectibles(perimeter), generateRandomObstacles(perimeter));
-        this.hero = hero;
-        this.monster = monster;
-        this.totalMeters = totalMeters;
-        this.score = score;
-        this.level = level;
-        this.gameOver = gameOver;
-        this.display = new Display(new Gamepad());
+        TrackType trackType = RandomEngine.randTrackType();
+        this.runTrack = new RunTrack(perimeter, trackType, generateRandomCollectibles(perimeter)
+                , generateRandomObstacles(perimeter));
+
+        this.hero = new Hero();
+        this.monster = new Monster();
+        this.totalMeters = 0;
+        this.score = 0;
+        this.level = RandomEngine.randLevel();
+        this.gameOver = false;
     }
 
     public void startGame(){
 
-        displayGameProperties();
+        if(loadProgress()){
+            display.loadedGame();
+        }else{
+            init();
+        }
+
+        display.gameProperties(runTrack.getTrackType().toString(), level.toString());
         waitDisplay(2000);
 
         while(!gameOver){
@@ -132,7 +139,6 @@ public class GameEngine {
         }
     }
 
-
     private void waitDisplay(long milliseconds){
         try {
             TimeUnit.MILLISECONDS.sleep(milliseconds);
@@ -157,7 +163,6 @@ public class GameEngine {
         return obstacles[i];
     }
 
-
     //Create an obstacle map from randomly generated obstacles
     private Map<Integer, IAvoidable> generateRandomObstacles(int perimeter){
         Map<Integer,IAvoidable> obstacleMap = new HashMap<>();
@@ -176,7 +181,6 @@ public class GameEngine {
         }
         return currencyMap;
     }
-
 
     //Create a collectible  from randomly generated currencies
     private Map<Integer, Collectable> generateRandomCollectibles(int perimeter){
@@ -206,11 +210,10 @@ public class GameEngine {
         return false;
     }
 
-
     //Save player's progress into the game_progress.json file as a json object
     @SuppressWarnings("deprecation")
     private void saveProgress() {
-        GameStorage saver = new FileIO();
+        GameStorage saver = new FileIO("game-progress.json");
         boolean saved = false;
 
         ObjectMapper mapper = new ObjectMapper();
@@ -242,7 +245,7 @@ public class GameEngine {
             ObjectNode json = f.objectNode();
             json.put("gameProgress",gameProgress);
             String progressAsString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
-            saved = saver.save("game-progress.json",progressAsString);
+            saved = saver.save(progressAsString);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -267,42 +270,51 @@ public class GameEngine {
 
     //Loads player's progress from the game-progress.json file as a json object
     @SuppressWarnings("unchecked")
-    private void loadProgress() {
-        GameStorage loader = new FileIO();
-        boolean load = false;
+    private boolean loadProgress() {
+
+        GameStorage loader = new FileIO("game-progress.json");
         ObjectMapper mapper = new ObjectMapper();
-        String progressAsString = loader.read("game-progress.json");
 
-        try {
-            ObjectNode gameProgress = (ObjectNode) mapper.readTree(progressAsString).get("gameProgress");
-            hero = mapper.convertValue(gameProgress.get("hero"),Hero.class);
+        if(loader.checkSave()) {
+            String progressAsString = loader.load();
+            loader.deleteSave();
 
-            Map<String, String> currencyMapJson = mapper.convertValue(gameProgress.get("runTrack").get("currencyMap"),Map.class);
-            Map<Integer, Collectable> currencyMap =
-                    currencyMapJson.entrySet().stream().collect(Collectors.toMap(
-                            entry -> Integer.parseInt(entry.getKey()),
-                            entry -> Collectable.valueOf(entry.getValue()))
-                    );
+            try {
+                ObjectNode gameProgress = (ObjectNode) mapper.readTree(progressAsString).get("gameProgress");
+                this.hero = mapper.convertValue(gameProgress.get("hero"), Hero.class);
+
+                Map<String, String> currencyMapJson = mapper.convertValue(gameProgress.get("runTrack").get("currencyMap"), Map.class);
+                Map<Integer, Collectable> currencyMap =
+                        currencyMapJson.entrySet().stream().collect(Collectors.toMap(
+                                entry -> Integer.parseInt(entry.getKey()),
+                                entry -> Collectable.valueOf(entry.getValue()))
+                        );
 
 
-            Map<String, String> obstacleMapJson = mapper.convertValue(gameProgress.get("runTrack").get("obstacleMap"),Map.class);;
-            Map<Integer, IAvoidable> obstacleMap =
-                    obstacleMapJson.entrySet().stream().collect(Collectors.toMap(
-                            entry -> Integer.parseInt(entry.getKey()),
-                            entry -> test(entry.getValue()))
-                    );
+                Map<String, String> obstacleMapJson = mapper.convertValue(gameProgress.get("runTrack").get("obstacleMap"), Map.class);
 
-            runTrack = new RunTrack(mapper.convertValue(gameProgress.get("runTrack").get("perimeter"),int.class),
-                    mapper.convertValue(gameProgress.get("runTrack").get("trackType"), TrackType.class),
-                    currencyMap,obstacleMap);
-            totalMeters = mapper.convertValue(gameProgress.get("totalMeters"),int.class);
-            score = mapper.convertValue(gameProgress.get("score"), int.class);
-            level = mapper.convertValue(gameProgress.get("level"), Level.class);
-            load = true;
-        } catch (IOException e) {
-            e.printStackTrace();
+                Map<Integer, IAvoidable> obstacleMap =
+                        obstacleMapJson.entrySet().stream().collect(Collectors.toMap(
+                                entry -> Integer.parseInt(entry.getKey()),
+                                entry -> test(entry.getValue()))
+                        );
+
+                this.runTrack = new RunTrack(mapper.convertValue(gameProgress.get("runTrack").get("perimeter"), int.class),
+                        mapper.convertValue(gameProgress.get("runTrack").get("trackType"), TrackType.class),
+                        currencyMap, obstacleMap);
+                this.totalMeters = mapper.convertValue(gameProgress.get("totalMeters"), int.class);
+                this.score = mapper.convertValue(gameProgress.get("score"), int.class);
+                this.level = mapper.convertValue(gameProgress.get("level"), Level.class);
+                this.monster = new Monster();
+                this.gameOver = false;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }else{
+            return false;
         }
-        System.out.println("Progress loaded: " + load);
     }
 
     //End of the game, player's score, cause of death, etc. is displayed
@@ -325,9 +337,5 @@ public class GameEngine {
         hero.setPosition(0);
     }
 
-    //Display game's initially generated properties
-    private void displayGameProperties(){
-        display.initialGameProperties(runTrack.getTrackType().toString(), level.toString());
-    }
 
 }

@@ -8,8 +8,14 @@ import java.util.Scanner;
 
 public class FileIO implements GameStorage{
 
+    private final String filePath;
+
+    public FileIO(String filePath) {
+        this.filePath = filePath;
+    }
+
     //Write the given string to the file
-    public boolean save(String filePath, String progressAsString){
+    public boolean save(String progressAsString){
         boolean saved = false;
 
         try {
@@ -25,19 +31,32 @@ public class FileIO implements GameStorage{
     }
 
     //Read string from the file
-    public String read(String filePath){
+    public String load(){
         StringBuilder readProgress = new StringBuilder();
 
         try {
-            File fileToRead = new File(filePath);
-            Scanner myReader = new Scanner(fileToRead);
-            while (myReader.hasNextLine()) {
-                readProgress.append(myReader.nextLine());
+            File f = new File(filePath);
+            Scanner scanner = new Scanner(f);
+            while (scanner.hasNextLine()) {
+                readProgress.append(scanner.nextLine());
             }
+            scanner.close();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return readProgress.toString();
+    }
+
+    public Boolean checkSave(){
+
+        File f = new File(filePath);
+
+        return f.exists() && !f.isDirectory();
+    }
+
+    public Boolean deleteSave(){
+        File f = new File(filePath);
+        return f.delete();
     }
 }

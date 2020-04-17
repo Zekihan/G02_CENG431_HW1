@@ -31,10 +31,13 @@ public interface IGameMonitor {
      *  @param2 difficultyStr game's difficulty as String
      *  @throws IllegalArgumentException if one of the given String arguments is null
      */
-    public void initialGameProperties(String themeStr, String difficultyStr);
+    public void gameProperties(String themeStr, String difficultyStr);
 
     /* Displays the monster encountered */
     public void encounteredMonster();
+
+    /* Displays the game is loaded from saved progress*/
+    public void loadedGame();
 
     /**/
     public String getKeyEvent();
