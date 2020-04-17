@@ -41,7 +41,6 @@ public class Display implements IGameMonitor{
         contentPane.add(scrollPane, BorderLayout.CENTER);
 
         frame.pack();
-
         frame.setVisible(true);
 
     }
@@ -129,5 +128,4 @@ public class Display implements IGameMonitor{
         textArea.append(title);
         textArea.append(display+"\n");
     }
-
 }

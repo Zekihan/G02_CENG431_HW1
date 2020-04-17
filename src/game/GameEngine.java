@@ -38,9 +38,7 @@ public class GameEngine {
     private void init(){
         int perimeter = RandomEngine.randPerimeterInRange(1000,10000);
         TrackType trackType = RandomEngine.randTrackType();
-        this.runTrack = new RunTrack(perimeter, trackType, generateRandomCollectables(perimeter)
-                , generateRandomObstacles(perimeter));
-
+        this.runTrack = new RunTrack(perimeter, trackType, generateCollectables(perimeter), generateObstacles(perimeter));
         this.hero = new Hero();
         this.monster = new Monster();
         this.totalMeters = 0;
@@ -129,7 +127,7 @@ public class GameEngine {
     }
 
     //Generate a random currency
-    private Collectable createRandomCollectible() {
+    private Collectable createRandomCollectable() {
         Collectable[] currencies = Collectable.values();
         Random rand = new Random();
         int i = rand.nextInt(currencies.length);
@@ -145,7 +143,7 @@ public class GameEngine {
     }
 
     //Create an obstacle map from randomly generated obstacles
-    private Map<Integer, IAvoidable> generateRandomObstacles(int perimeter){
+    private Map<Integer, IAvoidable> generateObstacles(int perimeter){
         Map<Integer,IAvoidable> obstacleMap = new HashMap<>();
         for(int i=0; i < perimeter; i+=500){
             obstacleMap.put(i, createRandomObstacle());
@@ -153,21 +151,21 @@ public class GameEngine {
         return obstacleMap;
     }
 
-    //Create a collectible map from randomly generated obstacles and collectible map
-    private Map<Integer, Collectable> refreshRandomCollectables(int perimeter, Map<Integer, Collectable> currencyMap){
-        for(int i=0; i < perimeter; i+=50){
-            if(!currencyMap.containsKey(i)){
-                currencyMap.put(i, createRandomCollectible());
-            }
+    //Create a collectible  from randomly generated currencies
+    private Map<Integer, Collectable> generateCollectables(int perimeter){
+        Map<Integer, Collectable> currencyMap = new HashMap<>();
+        for(int i=0; i < perimeter; i+= 50){
+            currencyMap.put(i, createRandomCollectable());
         }
         return currencyMap;
     }
 
-    //Create a collectible  from randomly generated currencies
-    private Map<Integer, Collectable> generateRandomCollectables(int perimeter){
-        Map<Integer, Collectable> currencyMap = new HashMap<>();
-        for(int i=0; i < perimeter; i+= 50){
-            currencyMap.put(i, createRandomCollectible());
+    //Create a collectible map from randomly generated obstacles and collectible map
+    private Map<Integer, Collectable> refreshRandomCollectables(int perimeter, Map<Integer, Collectable> currencyMap){
+        for(int i=0; i < perimeter; i+=50){
+            if(!currencyMap.containsKey(i)){
+                currencyMap.put(i, createRandomCollectable());
+            }
         }
         return currencyMap;
     }
