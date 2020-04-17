@@ -1,6 +1,5 @@
 package game.map;
 
-import exceptions.IllegalRunTrackSizeException;
 import game.avoidables.IAvoidable;
 import game.Collectable;
 
@@ -51,7 +50,6 @@ public class RunTrack implements ICircularMap {
         if(isPositionNegative(position)){
             throw new IllegalArgumentException("Position argument cannot be less than 0.");
         }
-
         return obstacleMap.containsKey(position);
     }
 
@@ -67,15 +65,9 @@ public class RunTrack implements ICircularMap {
 
     private void setPerimeter(int perimeter){
         if(perimeter <= 0){
-            try{
-                throw new IllegalRunTrackSizeException("Given run track perimeter cannot be less than or equal to 0!");
-
-            }catch(IllegalRunTrackSizeException e){
-                e.printStackTrace();
-            }
-        }else{
-            this.perimeter = perimeter;
+            throw new IllegalArgumentException("Given run track perimeter cannot be less than or equal to 0");
         }
+        this.perimeter = perimeter;
     }
 
     //Necessary for saving progress to json
