@@ -31,6 +31,11 @@ public class GameEngine {
 
     public GameEngine() {
         this.display = new Display(new Gamepad());
+        if(loadProgress()){
+            display.loadedGame();
+        }else{
+            init();
+        }
     }
 
     private void init(){
@@ -48,12 +53,6 @@ public class GameEngine {
     }
 
     public void startGame(){
-
-        if(loadProgress()){
-            display.loadedGame();
-        }else{
-            init();
-        }
 
         display.gameProperties(runTrack.getTrackType().toString(), level.toString());
         waitDisplay(2000);
@@ -230,7 +229,7 @@ public class GameEngine {
             Map<Integer, IAvoidable> obstacleMap = runTrack.getObstacleMap();
             Map<Integer, String> obstacleMapJson =
                     obstacleMap.entrySet().stream().collect(Collectors.toMap(
-                            entry -> entry.getKey(),
+                            Map.Entry::getKey,
                             entry -> entry.getValue().getClass().getSimpleName())
                     );
             runTrackNode.put("obstacleMap", mapper.valueToTree(obstacleMapJson));
@@ -249,22 +248,19 @@ public class GameEngine {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Progress saved: " + saved);
-
+        //System.out.println("Progress saved: " + saved); use display
     }
-
+    
     private IAvoidable test(String entry){
         switch (entry) {
             case "FelledTreeObstacle":
                 return new FelledTreeObstacle();
-            case "RockObstacle":
-                return new RockObstacle();
             case "SawObstacle":
                 return new SawObstacle();
             case "AqueductObstacle":
                 return new AqueductObstacle();
             default:
-                return null;
+                return new RockObstacle();
         }
     }
 
@@ -308,13 +304,13 @@ public class GameEngine {
                 this.monster = new Monster();
                 this.gameOver = false;
 
+                return true;
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return true;
-        }else{
-            return false;
         }
+        return false;
     }
 
     //End of the game, player's score, cause of death, etc. is displayed

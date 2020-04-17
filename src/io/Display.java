@@ -84,7 +84,7 @@ public class Display implements IGameMonitor{
             throw new IllegalArgumentException("Destination argument cannot be null.");
         }
 
-        String textScreen = "Hero has reached to " + reachedDestinationStr + " meters!!";
+        String textScreen = "Hero has finished a lap, reached to " + reachedDestinationStr + " meters!!";
         System.out.println(textScreen);
         setText(" -> ",textScreen);
     }
