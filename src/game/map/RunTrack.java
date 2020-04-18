@@ -21,23 +21,23 @@ public class RunTrack implements ICircularMap {
     }
 
     public Collectable getCollectible(int position){
-        if(isPositionNegative(position)){
-            throw new IllegalArgumentException("Position argument cannot be less than 0.");
+        if(isValidPosition(position)){
+            throw new IllegalArgumentException("Position argument not valid.");
         }
 
         return collectableMap.get(position);
     }
 
     public IAvoidable getObstacle(int position){
-        if(isPositionNegative(position)){
-            throw new IllegalArgumentException("Position argument cannot be less than 0.");
+        if(isValidPosition(position)){
+            throw new IllegalArgumentException("Position argument not valid.");
         }
 
         return obstacleMap.get(position);
     }
 
     public boolean checkForCollectible(int position){
-        if(isPositionNegative(position)){
+        if(isValidPosition(position)){
             throw new IllegalArgumentException("Position argument cannot be less than 0.");
         }
 
@@ -45,8 +45,8 @@ public class RunTrack implements ICircularMap {
     }
 
     public boolean checkForObstacle(int position){
-        if(isPositionNegative(position)){
-            throw new IllegalArgumentException("Position argument cannot be less than 0.");
+        if(isValidPosition(position)){
+            throw new IllegalArgumentException("Position argument not valid.");
         }
         return obstacleMap.containsKey(position);
     }
@@ -89,15 +89,15 @@ public class RunTrack implements ICircularMap {
     }
 
     public void removeCollectable(int position) {
-        if(isPositionNegative(position)){
-            throw new IllegalArgumentException("Position of the collectible cannot be null!");
+        if(isValidPosition(position)){
+            throw new IllegalArgumentException("Position argument not valid.");
         }
         collectableMap.remove(position);
     }
 
     //Checks whether the given position argument is negative, if so return true, false if otherwise
-    private boolean isPositionNegative(int position){
-        return position < 0;
+    private boolean isValidPosition(int position){
+        return position < 0 && position < getPerimeter();
     }
 
 }
