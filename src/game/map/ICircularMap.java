@@ -59,12 +59,12 @@ public interface ICircularMap {
     /* Get the collectible map.
     *  @return a copy of the collectible map.
     */
-    public Map<Integer, Collectable> getCollectibleMap();
+    public Map<Integer, Collectable> getCollectableMap();
 
     /* Set the collectible map
     * @param collectibleMap    Map of collectible items along with their positions to be set.
     */
-    public void setCollectibleMap(Map<Integer, Collectable> collectibleMap);
+    public void setCollectableMap(Map<Integer, Collectable> collectibleMap);
 
     }
 

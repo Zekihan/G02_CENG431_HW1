@@ -27,7 +27,7 @@ public class GameEngine {
     private boolean gameOver;
 
     public GameEngine() {
-        this.display = new Display(new Gamepad());
+        this.display = new Display(new QuitListener());
         if(loadProgress()){
             display.loadedGame();
         }else{
@@ -116,7 +116,7 @@ public class GameEngine {
             //Hero has completed one iteration of the circular-map, reset his/her position.
             if(hero.getPosition() > runTrack.getPerimeter()){
                 // Reset Collectibles
-                runTrack.setCollectibleMap(refreshRandomCollectables(runTrack.getPerimeter(),runTrack.getCollectibleMap()));
+                runTrack.setCollectableMap(refreshRandomCollectables(runTrack.getPerimeter(),runTrack.getCollectableMap()));
                 resetPosition();
                 display.reachedDestination(String.valueOf(totalMeters));
                 waitDisplay(1000);
@@ -206,7 +206,7 @@ public class GameEngine {
             runTrackNode.put("perimeter", mapper.valueToTree(runTrack.getPerimeter()));
             runTrackNode.put("trackType", mapper.valueToTree(runTrack.getTrackType()));
             runTrackNode.put("obstacleMap", mapper.valueToTree(obstacleMapJson));
-            runTrackNode.put("currencyMap", mapper.valueToTree(runTrack.getCollectibleMap()));
+            runTrackNode.put("currencyMap", mapper.valueToTree(runTrack.getCollectableMap()));
             gameProgress.put("hero", mapper.readTree(mapper.writeValueAsString(hero)));
             gameProgress.put("runTrack",runTrackNode);
             gameProgress.put("totalMeters", mapper.valueToTree(totalMeters));

@@ -10,11 +10,11 @@ public class Display implements IGameMonitor{
     JTextArea textArea;
     JFrame frame;
 
-    public Display(Gamepad action) {
+    public Display(QuitListener action) {
         initializeGUI(action);
     }
 
-    private void initializeGUI(Gamepad action){
+    private void initializeGUI(QuitListener action){
         this.frame = new JFrame("Key Listener");
         frame.setTitle("Runner Hero");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

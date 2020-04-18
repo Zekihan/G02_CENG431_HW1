@@ -10,13 +10,13 @@ public class RunTrack implements ICircularMap {
 
     private int perimeter;
     private TrackType trackType;
-    private Map<Integer, Collectable> currencyMap;
+    private Map<Integer, Collectable> collectableMap;
     private Map<Integer, IAvoidable> obstacleMap;
 
-    public RunTrack(int perimeter, TrackType trackType, Map<Integer, Collectable> currencyMap, Map<Integer,IAvoidable> obstacleMap) {
+    public RunTrack(int perimeter, TrackType trackType, Map<Integer, Collectable> collectableMap, Map<Integer,IAvoidable> obstacleMap) {
         setPerimeter(perimeter);
         this.trackType = trackType;
-        this.currencyMap = currencyMap;
+        this.collectableMap = collectableMap;
         this.obstacleMap = obstacleMap;
     }
 
@@ -25,7 +25,7 @@ public class RunTrack implements ICircularMap {
             throw new IllegalArgumentException("Position argument cannot be less than 0.");
         }
 
-        return currencyMap.get(position);
+        return collectableMap.get(position);
     }
 
     public IAvoidable getObstacle(int position){
@@ -41,7 +41,7 @@ public class RunTrack implements ICircularMap {
             throw new IllegalArgumentException("Position argument cannot be less than 0.");
         }
 
-        return currencyMap.containsKey(position);
+        return collectableMap.containsKey(position);
     }
 
     public boolean checkForObstacle(int position){
@@ -68,10 +68,10 @@ public class RunTrack implements ICircularMap {
     }
 
     //Necessary for saving progress to json
-    public Map<Integer, Collectable> getCollectibleMap() {
-        Map<Integer, Collectable> copyMap = new HashMap<>(currencyMap.size());
-        for(Integer nextPosition: currencyMap.keySet()){
-            copyMap.put(nextPosition, currencyMap.get(nextPosition));
+    public Map<Integer, Collectable> getCollectableMap() {
+        Map<Integer, Collectable> copyMap = new HashMap<>(collectableMap.size());
+        for(Integer nextPosition: collectableMap.keySet()){
+            copyMap.put(nextPosition, collectableMap.get(nextPosition));
         }
         return copyMap;
     }
@@ -84,24 +84,20 @@ public class RunTrack implements ICircularMap {
         return copyMap;
     }
 
-    public void setCollectibleMap(Map<Integer, Collectable> currencyMap) {
-        this.currencyMap = currencyMap;
+    public void setCollectableMap(Map<Integer, Collectable> currencyMap) {
+        this.collectableMap = currencyMap;
     }
 
     public void removeCollectable(int position) {
         if(isPositionNegative(position)){
             throw new IllegalArgumentException("Position of the collectible cannot be null!");
         }
-        currencyMap.remove(position);
+        collectableMap.remove(position);
     }
 
     //Checks whether the given position argument is negative, if so return true, false if otherwise
     private boolean isPositionNegative(int position){
-        boolean negative = false;
-        if(position < 0){
-           negative = true;
-        }
-        return negative;
+        return position < 0;
     }
 
 }
