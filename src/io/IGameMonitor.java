@@ -39,7 +39,7 @@ public interface IGameMonitor {
     /* Displays the game is loaded from saved progress*/
     public void loadedGame();
 
-    /**/
+    /*Gets key event*/
     public String getKeyEvent();
 
 
