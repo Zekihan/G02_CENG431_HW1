@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class GameEngine {
 
-    private IGameMonitor display;
+    private final IGameMonitor display;
     private ICircularMap runTrack;
     private Hero hero;
     private Monster monster;
@@ -56,11 +56,10 @@ public class GameEngine {
             //Player presses 'q' to quit
             if (display.getKeyEvent().equals("q")){
                 gameOver = true;
-                endReport("Player quit");
-                try{
-                    saveProgress();
-                }catch (Exception e){
-                    e.printStackTrace();
+                if(saveProgress()){
+                    endReport("Player quit, progress saved.");
+                }else{
+                    endReport("Player quit, failed to save the progress.");
                 }
                 break;
             }
@@ -79,13 +78,13 @@ public class GameEngine {
                 //Hero stumbles upon the obstacle
                 if(checkStumbleCondition(obstacleEncountered) && totalMeters!=0){
                     gameOver = true;
-                    endReport(obstacleEncountered.stumbleEffect());
+                    endReport(obstacleEncountered.stumbleResult());
                     break;
 
                 //Hero avoids the obstacle
                 }else {
                     score += obstacleEncountered.getAvoidPoint() * level.getMultiplier();
-                    display.avoidedObstacle(obstacleEncountered.avoidEffect());
+                    display.avoidedObstacle(obstacleEncountered.avoidResult());
                     waitDisplay(1000);
                 }
             }
@@ -116,12 +115,11 @@ public class GameEngine {
 
             //Hero has completed one iteration of the circular-map, reset his/her position.
             if(hero.getPosition() > runTrack.getPerimeter()){
-
                 // Reset Collectibles
                 runTrack.setCollectibleMap(refreshRandomCollectables(runTrack.getPerimeter(),runTrack.getCollectibleMap()));
-
-                display.reachedDestination(String.valueOf(totalMeters));
                 resetPosition();
+                display.reachedDestination(String.valueOf(totalMeters));
+                waitDisplay(1000);
             }
         }
     }
@@ -209,7 +207,6 @@ public class GameEngine {
             runTrackNode.put("trackType", mapper.valueToTree(runTrack.getTrackType()));
             runTrackNode.put("obstacleMap", mapper.valueToTree(obstacleMapJson));
             runTrackNode.put("currencyMap", mapper.valueToTree(runTrack.getCollectibleMap()));
-
             gameProgress.put("hero", mapper.readTree(mapper.writeValueAsString(hero)));
             gameProgress.put("runTrack",runTrackNode);
             gameProgress.put("totalMeters", mapper.valueToTree(totalMeters));
@@ -246,7 +243,6 @@ public class GameEngine {
                                 entry -> Integer.parseInt(entry.getKey()),
                                 entry -> Collectable.valueOf(entry.getValue()))
                         );
-
                 Map<String, String> obstacleMapJson =
                         mapper.convertValue(gameProgress.get("runTrack").get("obstacleMap"), Map.class);
 
@@ -255,7 +251,6 @@ public class GameEngine {
                                 entry -> Integer.parseInt(entry.getKey()),
                                 entry -> getNewAvoidable(entry.getValue()))
                         );
-
                 this.runTrack = new RunTrack(mapper.convertValue(gameProgress.get("runTrack").get("perimeter"), int.class),
                         mapper.convertValue(gameProgress.get("runTrack").get("trackType"), TrackType.class),
                         currencyMap, obstacleMap);

@@ -8,6 +8,7 @@ public abstract class Obstacle implements IAvoidable{
         this.necessaryMove = necessaryMove;
     }
 
+
     public Move getNecessaryMove() {
         return necessaryMove;
     }
@@ -18,6 +19,14 @@ public abstract class Obstacle implements IAvoidable{
 
     public int getAvoidPoint(){
         return necessaryMove.getPoint();
+    }
+
+    public String avoidResult(){
+        return "Hero avoided the obstacle.";
+    }
+
+    public String stumbleResult(){
+        return "Hero stumbled into the obstacle";
     }
 
 }

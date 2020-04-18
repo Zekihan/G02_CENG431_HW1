@@ -7,10 +7,10 @@ public class AqueductObstacle extends SlidableObstacle{
     }
 
     @Override
-    public String avoidEffect() { return "Hero has slided under the aqueduct."; }
+    public String avoidResult() { return "Hero has slided under the aqueduct."; }
 
     @Override
-    public String stumbleEffect() {
+    public String stumbleResult() {
         return "Hero has failed to slide under the aqueduct.";
     }
 }

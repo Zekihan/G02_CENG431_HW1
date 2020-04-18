@@ -13,14 +13,12 @@ public class RunTrack implements ICircularMap {
     private Map<Integer, Collectable> currencyMap;
     private Map<Integer, IAvoidable> obstacleMap;
 
-
     public RunTrack(int perimeter, TrackType trackType, Map<Integer, Collectable> currencyMap, Map<Integer,IAvoidable> obstacleMap) {
         setPerimeter(perimeter);
         this.trackType = trackType;
         this.currencyMap = currencyMap;
         this.obstacleMap = obstacleMap;
     }
-
 
     public Collectable getCollectible(int position){
         if(isPositionNegative(position)){
@@ -52,7 +50,6 @@ public class RunTrack implements ICircularMap {
         }
         return obstacleMap.containsKey(position);
     }
-
 
     public int getPerimeter() {
         return perimeter;

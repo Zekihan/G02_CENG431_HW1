@@ -22,9 +22,5 @@ public class Monster {
         return eatResult;
     }
 
-    private void setEatChance(int eatChance){
-        if(eatChance <= 0){
-            throw new IllegalArgumentException("Given eat chance argument must be greater than 0.");
-        }
-    }
+
 }

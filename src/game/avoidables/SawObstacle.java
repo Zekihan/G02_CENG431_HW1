@@ -7,12 +7,12 @@ public class SawObstacle extends JumpableObstacle{
     }
 
     @Override
-    public String avoidEffect() {
+    public String avoidResult() {
         return "Hero has jumped over the saw obstacle.";
     }
 
     @Override
-    public String stumbleEffect() {
+    public String stumbleResult() {
         return "Hero has rushed into a saw obstacle, split into two.";
     }
 }
